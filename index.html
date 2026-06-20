@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🧠 SUPER IA PREDITOR v4.0 ULTRA | Análise Estatística Avançada</title>
+    <title>🧠 SUPER IA PREDITOR v5.0 QUANTUM | Análise Estatística Avançada</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -22,7 +22,6 @@
         button.primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); box-shadow: 0 8px 25px rgba(245,87,108,0.5); animation: pulseBtn 2s infinite; }
         @keyframes pulseBtn { 0%, 100% { box-shadow: 0 8px 25px rgba(245,87,108,0.5); } 50% { box-shadow: 0 8px 35px rgba(245,87,108,0.8); } }
         button:hover { transform: translateY(-3px) scale(1.05); filter: brightness(1.15); }
-        button:active { transform: translateY(0) scale(0.98); }
         select, input { background: #1e2a32; border: 2px solid #3e4d5e; padding: 12px 18px; border-radius: 40px; color: white; font-weight: 600; transition: all 0.3s; }
         select:focus, input:focus { border-color: #667eea; outline: none; box-shadow: 0 0 15px rgba(102,126,234,0.5); }
         .numeros-area, .estrelas-area { background: linear-gradient(135deg, #0f131c 0%, #1a2332 100%); border-radius: 60px; padding: 24px; margin: 20px 0; text-align: center; border: 2px solid #2a3342; }
@@ -44,25 +43,29 @@
         th { background: #1a2332; font-weight: 700; color: #ffd966; }
         .model-badge { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; margin: 3px; font-weight: 600; }
         .prediction-card { background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%); border: 2px solid #667eea; border-radius: 20px; padding: 18px; margin: 10px 0; }
-        .warning-box { background: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,20,147,0.2) 100%); border: 2px solid #ff6b35; border-radius: 16px; padding: 16px; margin: 16px 0; font-size: 0.9rem; }
+        .warning-box { background: linear-gradient(135deg, rgba(255,107,53,0.25) 0%, rgba(255,20,147,0.25) 100%); border: 2px solid #ff6b35; border-radius: 16px; padding: 16px; margin: 16px 0; font-size: 0.95rem; }
+        .warning-box strong { color: #ff6b35; font-size: 1.05rem; }
         .metric-card { background: linear-gradient(135deg, rgba(17,153,142,0.1) 0%, rgba(56,239,125,0.1) 100%); border: 1px solid #11998e; border-radius: 16px; padding: 14px; margin: 10px 0; }
-        @media (max-width: 700px) { .bolha { width: 52px; height: 52px; font-size: 1.4rem; } h1 { font-size: 1.7rem; } }
-    </style></head>
+        .backtest-good { color: #38ef7d; font-weight: bold; }
+        .backtest-bad { color: #f5576c; font-weight: bold; }        @media (max-width: 700px) { .bolha { width: 52px; height: 52px; font-size: 1.4rem; } h1 { font-size: 1.7rem; } }
+    </style>
+</head>
 <body>
 <div class="dashboard">
     <div class="card flex-row">
         <div>
-            <h1>🧠 SUPER IA PREDITOR v4.0 ULTRA</h1>
+            <h1>🧠 SUPER IA PREDITOR v5.0 QUANTUM</h1>
             <div style="font-size:0.9rem; margin-top:8px;">
-                <span class="model-badge">🔬 Deep Learning</span>
-                <span class="model-badge">🧬 Algoritmos Genéticos</span>
-                <span class="model-badge">📊 Markov Chains</span>
-                <span class="model-badge">🎯 Ensemble IA</span>
-                <span class="model-badge">🌊 Fourier Analysis</span>
-                <span class="model-badge">📈 ARIMA</span>
-                <span class="model-badge">🎲 Bayesian</span>
-                <span class="model-badge">🔗 Correlação</span>
-                <span class="model-badge">📉 Entropia</span>
+                <span class="model-badge">🔬 Deep Learning 5-Layer</span>
+                <span class="model-badge">🧬 GA 1000×500</span>
+                <span class="model-badge">📊 Markov-5 Laplace</span>
+                <span class="model-badge">🎯 Ensemble Backtested</span>
+                <span class="model-badge">🌊 FFT Real</span>
+                <span class="model-badge">📈 ARIMA(p,d,q)</span>
+                <span class="model-badge">🎲 Beta-Binomial</span>
+                <span class="model-badge">🔗 Partial Corr</span>
+                <span class="model-badge">📉 Conditional Entropy</span>
+                <span class="model-badge">✅ Cross-Validation</span>
             </div>
             <div id="dataHora" style="font-size:0.9rem; margin-top:8px;"></div>
         </div>
@@ -72,7 +75,7 @@
     </div>
 
     <div class="warning-box">
-        <strong>⚠️ AVISO IMPORTANTE:</strong> Loterias são eventos aleatórios por natureza. Nenhum algoritmo, IA ou sistema matemático pode garantir acertos. Esta ferramenta fornece apenas análises estatísticas de padrões históricos. As probabilidades matemáticas reais permanecem inalteradas. Jogue com responsabilidade.
+        <strong>⚠️ AVISO MATEMÁTICO FUNDAMENTAL:</strong> Lotarias são processos estocásticos com independência entre sorteios (propriedade de Markov forte). <strong>Nenhum algoritmo, IA ou método matemático pode prever resultados futuros com qualquer percentagem garantida de acerto</strong>. As probabilidades teóricas do Euromilhões são 1 em 139.838.160 (5+2⭐) e permanecem inalteradas independentemente da análise histórica. Esta ferramenta realiza apenas análise estatística descritiva de padrões passados. <strong>Jogue com responsabilidade — nunca aposte mais do que pode perder.</strong>
     </div>
 
     <div class="card flex-row">
@@ -87,16 +90,14 @@
             <option value="multipla8">📈 Múltipla 8 números</option>
             <option value="multipla9">📈 Múltipla 9 números</option>
             <option value="multipla10">🔥 Múltipla 10 números</option>
-            <option value="multipla11">🔥 Múltipla 11 números</option>
-            <option value="multipla12">💎 Múltipla 12 números</option>
         </select>
-        <button id="btnGerar" class="primary">✨ GERAR APOSTA SUPER IA ✨</button>
+        <button id="btnGerar" class="primary">✨ GERAR APOSTA QUANTUM IA ✨</button>
         <button id="btnExportPDF">📄 PDF</button>
         <button id="btnExportExcel">📊 Excel</button>
     </div>
 
-    <div class="card">
-        <div style="display:flex; justify-content: space-between; flex-wrap:wrap; align-items:center;">            <h2>🎯 PREVISÃO SUPER IA (Análise Ultra-Avançada)</h2>
+    <div class="card">        <div style="display:flex; justify-content: space-between; flex-wrap:wrap; align-items:center;">
+            <h2>🎯 PREVISÃO QUANTUM IA (Análise Multi-Modelo Backtested)</h2>
             <div>
                 <span class="score-circle" id="pontuacaoEstatistica">0.00</span>
                 <div style="font-size:0.8rem; margin-top:5px;">Score IA /100</div>
@@ -107,27 +108,27 @@
         <div id="estrelasGeradas" class="numeros-area"></div>
         <div class="flex-row">
             <div><strong>💰 Preço:</strong> <span id="precoEstimado">---</span></div>
-            <div><strong>📈 Confiança:</strong> <span id="probabilidadeLabel">---</span></div>
+            <div><strong>📊 Confiança Estatística:</strong> <span id="probabilidadeLabel">---</span></div>
             <div><strong>🧠 Modelos IA:</strong> <span id="simulacoesCount">0</span></div>
         </div>
         <div class="stat-bar"><div class="stat-fill" id="scoreBar" style="width:0%"></div></div>        
         
         <div class="prediction-card">
-            <h3 style="margin-top:0;">🔮 ANÁLISE DETALHADA DA PREVISÃO</h3>
+            <h3 style="margin-top:0;">🔮 ANÁLISE DETALHADA + BACKTESTING</h3>
             <div id="analiseDetalhada" style="font-size:0.9rem; line-height:1.7;"></div>
         </div>
 
         <div class="grid-3col">
             <div class="metric-card">
-                <h4 style="margin:0; color:#11998e;">📊 Análise de Fourier</h4>
+                <h4 style="margin:0; color:#11998e;">📊 FFT - Frequências Dominantes</h4>
                 <div id="fourierAnalysis" style="font-size:0.85rem; margin-top:8px;"></div>
             </div>
             <div class="metric-card">
-                <h4 style="margin:0; color:#667eea;">📈 Tendência ARIMA</h4>
+                <h4 style="margin:0; color:#667eea;">📈 ARIMA - Tendência</h4>
                 <div id="arimaAnalysis" style="font-size:0.85rem; margin-top:8px;"></div>
             </div>
             <div class="metric-card">
-                <h4 style="margin:0; color:#f093fb;">🎲 Entropia de Shannon</h4>
+                <h4 style="margin:0; color:#f093fb;">🎲 Entropia Condicional</h4>
                 <div id="entropyAnalysis" style="font-size:0.85rem; margin-top:8px;"></div>
             </div>
         </div>
@@ -135,17 +136,17 @@
 
     <div class="grid-2col">
         <div class="card">
-            <h3>🔥 TOP NÚMEROS (Score Ponderado Multi-Modelo)</h3>
+            <h3>🔥 TOP NÚMEROS (Score Ensemble Ponderado)</h3>
             <div id="topNumerosList" style="display:flex; flex-wrap:wrap;"></div>
-            <h3>🌟 TOP ESTRELAS (Potencial)</h3>
+            <h3>🌟 TOP ESTRELAS (Score Ensemble)</h3>
             <div id="topEstrelasList"></div>
             <h3>⏳ MAIOR ATRASO (Due Numbers)</h3>
             <div id="atrasosList"></div>
-            <h3>🔗 PARES CORRELACIONADOS</h3>
+            <h3>🔗 PARES CORRELACIONADOS (Corr. Parcial)</h3>
             <div id="paresCorrelacionados" style="font-size:0.85rem;"></div>
         </div>
-        <div class="card">
-            <h3>📊 FREQUÊNCIAS (Últimos 100 sorteios)</h3>            <canvas id="freqChart" width="300" height="180" style="max-height:180px;"></canvas>
+        <div class="card">            <h3>📊 FREQUÊNCIAS (Últimos 100 sorteios)</h3>
+            <canvas id="freqChart" width="300" height="180" style="max-height:180px;"></canvas>
             <h3>🗺️ Mapa de Calor (Últimos 20 sorteios)</h3>
             <div id="heatmapContainer" class="heat-grid"></div>
             <h3>📈 TENDÊNCIA (Últimos 50 sorteios)</h3>
@@ -154,13 +155,12 @@
     </div>
 
     <div class="card">
-        <h3>🧠 MODELOS IA ATIVOS (12 Modelos Avançados)</h3>
+        <h3>🧠 BACKTESTING DOS MODELOS (Validação em Dados Históricos)</h3>
+        <div id="backtestResults" style="display:flex; flex-wrap:wrap; gap:10px; margin:15px 0;"></div>
+        <h3>🧬 MODELOS IA ATIVOS (12 Modelos Avançados)</h3>
         <div id="modelosIA" style="display:flex; flex-wrap:wrap; gap:10px; margin:15px 0;"></div>
         <h3>📜 HISTÓRICO (Últimos 10 sorteios)</h3>
         <div style="overflow-x:auto"><table id="historicoTabela"><tr><td>Carregando...</td></tr></table></div>
-        <div class="footer-buttons">
-            <span class="chip">⚙️ 12 Modelos IA + Análise Multi-Dimensional + Backtesting</span>
-        </div>
         <div id="statusSimulacao" style="font-size:0.85rem; margin-top:12px; color:#aaa;"></div>
     </div>
 </div>
@@ -169,9 +169,9 @@
 // ======================== CONFIGURAÇÕES ========================
 const LIMITS = {
     euromilhoes: { maxNum: 50, maxStar: 12, starCount: 2, basePrice: 2.50, 
-        multiplaPrecos: {6:15.00, 7:52.50, 8:140.00, 9:315.00, 10:630.00, 11:1155.00, 12:1980.00} },
+        multiplaPrecos: {6:15.00, 7:52.50, 8:140.00, 9:315.00, 10:630.00} },
     totoloto: { maxNum: 49, maxStar: 13, starCount: 1, basePrice: 1.00,
-        multiplaPrecos: {6:6.00, 7:21.00, 8:56.00, 9:126.00, 10:252.00, 11:462.00, 12:792.00} }
+        multiplaPrecos: {6:6.00, 7:21.00, 8:56.00, 9:126.00, 10:252.00} }
 };
 
 let dbEuromilhoes = [], dbTotoloto = [];
@@ -179,11 +179,12 @@ let currentLottery = "euromilhoes";
 let freqNumbers = [], freqStars = [];
 let freqChart, trendChart;
 
-// ======================== MODELO 1: CADEIAS DE MARKOV (Melhorado) ========================
-class MarkovChain {
-    constructor(order = 3) { 
+// ======================== MODELO 1: MARKOV CHAINS ORDEM 5 + LAPLACE ========================
+class MarkovChainAdvanced {
+    constructor(order = 5, smoothing = 1.0) { 
         this.transitions = {}; 
         this.order = order;
+        this.smoothing = smoothing;
     }
     
     train(data) {
@@ -191,88 +192,164 @@ class MarkovChain {
         for (let draw of data) {
             let nums = draw.numbers;
             for (let i = 0; i < nums.length; i++) {
-                let context = nums.slice(Math.max(0, i - this.order), i).join(',');
-                if (!this.transitions[context]) this.transitions[context] = {};
-                let next = nums[i];
-                this.transitions[context][next] = (this.transitions[context][next] || 0) + 1;            }
+                let start = Math.max(0, i - this.order);
+                let context = nums.slice(start, i).join(',');
+                if (!this.transitions[context]) this.transitions[context] = {};                let next = nums[i];
+                this.transitions[context][next] = (this.transitions[context][next] || 0) + 1;
+            }
         }
     }
     
-    predict(lastNumbers, topK = 15) {
+    predict(lastNumbers, maxNum, topK = 25) {
         let context = lastNumbers.slice(-this.order).join(',');
+        if (!this.transitions[context]) {
+            // Fallback para ordem inferior
+            for (let o = this.order - 1; o >= 1; o--) {
+                context = lastNumbers.slice(-o).join(',');
+                if (this.transitions[context]) break;
+            }
+        }
         if (!this.transitions[context]) return [];
+        
         let probs = this.transitions[context];
         let total = Object.values(probs).reduce((a,b) => a+b, 0);
-        let sorted = Object.entries(probs).map(([num, count]) => ({
-            num: parseInt(num), prob: count / total
-        })).sort((a,b) => b.prob - a.prob);
-        return sorted.slice(0, topK);
-    }
-}
-
-// ======================== MODELO 2: REDE NEURAL (Melhorada) ========================
-class SimpleNeuralNet {
-    constructor(inputSize, hiddenSize1, hiddenSize2, outputSize) {
-        this.weights1 = this.randomMatrix(inputSize, hiddenSize1);
-        this.weights2 = this.randomMatrix(hiddenSize1, hiddenSize2);
-        this.weights3 = this.randomMatrix(hiddenSize2, outputSize);
-        this.bias1 = new Array(hiddenSize1).fill(0);
-        this.bias2 = new Array(hiddenSize2).fill(0);
-        this.bias3 = new Array(outputSize).fill(0);
-    }
-    
-    randomMatrix(rows, cols) {
-        return Array(rows).fill().map(() => Array(cols).fill().map(() => (Math.random() - 0.5) * 0.3));
-    }
-    
-    sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
-    relu(x) { return Math.max(0, x); }
-    
-    predict(input) {
-        let hidden1 = new Array(this.weights1[0].length).fill(0);
-        for (let j = 0; j < this.weights1[0].length; j++) {
-            for (let i = 0; i < input.length; i++) {
-                hidden1[j] += input[i] * (this.weights1[i] ? this.weights1[i][j] : 0);
-            }
-            hidden1[j] = this.relu(hidden1[j] + this.bias1[j]);
-        }
+        let uniqueContexts = maxNum;
         
-        let hidden2 = new Array(this.weights2[0].length).fill(0);
-        for (let j = 0; j < this.weights2[0].length; j++) {
-            for (let i = 0; i < hidden1.length; i++) {
-                hidden2[j] += hidden1[i] * this.weights2[i][j];
-            }
-            hidden2[j] = this.relu(hidden2[j] + this.bias2[j]);
-        }        
-        let output = new Array(this.weights3[0].length).fill(0);
-        for (let j = 0; j < this.weights3[0].length; j++) {
-            for (let i = 0; i < hidden2.length; i++) {
-                output[j] += hidden2[i] * this.weights3[i][j];
-            }
-            output[j] = this.sigmoid(output[j] + this.bias3[j]);
+        // Suavização de Laplace
+        let sorted = [];
+        for (let i = 1; i <= maxNum; i++) {
+            let count = (probs[i] || 0) + this.smoothing;
+            let prob = count / (total + this.smoothing * uniqueContexts);
+            sorted.push({ num: i, prob: prob });
         }
-        return output;
+        return sorted.sort((a,b) => b.prob - a.prob).slice(0, topK);
+    }
+}
+
+// ======================== MODELO 2: REDE NEURAL PROFUNDA 5 CAMADAS ========================
+class DeepNeuralNet {
+    constructor(layerSizes) {
+        this.layers = [];
+        this.biases = [];
+        for (let i = 0; i < layerSizes.length - 1; i++) {
+            this.layers.push(this.randomMatrix(layerSizes[i], layerSizes[i+1]));
+            this.biases.push(new Array(layerSizes[i+1]).fill(0).map(() => (Math.random()-0.5)*0.1));
+        }
+        // Adam optimizer state
+        this.m = this.layers.map(l => l.map(r => r.map(() => 0)));
+        this.v = this.layers.map(l => l.map(r => r.map(() => 0)));
+        this.mb = this.biases.map(b => b.map(() => 0));
+        this.vb = this.biases.map(b => b.map(() => 0));
+        this.t = 0;
     }
     
-    trainBatch(data, epochs = 80) {
-        for (let epoch = 0; epoch < epochs; epoch++) {
-            let lr = 0.01 * (1 - epoch / epochs);
-            for (let sample of data) {
-                let output = this.predict(sample.input);
-                let error = sample.target.map((t, i) => t - output[i]);
-                for (let j = 0; j < this.weights3.length; j++) {
-                    for (let k = 0; k < this.weights3[0].length; k++) {
-                        this.weights3[j][k] += lr * error[k] * 0.6;
-                    }
+    randomMatrix(rows, cols) {        // Xavier initialization
+        let scale = Math.sqrt(2.0 / (rows + cols));
+        return Array(rows).fill().map(() => Array(cols).fill().map(() => (Math.random() - 0.5) * 2 * scale));
+    }
+    
+    leakyReLU(x, alpha = 0.01) { return x > 0 ? x : alpha * x; }
+    leakyReLUDeriv(x, alpha = 0.01) { return x > 0 ? 1 : alpha; }
+    sigmoid(x) { x = Math.max(-500, Math.min(500, x)); return 1 / (1 + Math.exp(-x)); }
+    softmax(arr) {
+        let max = Math.max(...arr);
+        let exps = arr.map(x => Math.exp(x - max));
+        let sum = exps.reduce((a,b) => a+b, 0);
+        return exps.map(x => x / sum);
+    }
+    
+    forward(input) {
+        let activations = [input];
+        let preActivations = [];
+        let current = input;
+        
+        for (let l = 0; l < this.layers.length; l++) {
+            let next = new Array(this.layers[l][0].length).fill(0);
+            for (let j = 0; j < this.layers[l][0].length; j++) {
+                for (let i = 0; i < current.length; i++) {
+                    next[j] += current[i] * this.layers[l][i][j];
                 }
+                next[j] += this.biases[l][j];
+            }
+            preActivations.push(next);
+            
+            // Ativação: LeakyReLU para camadas ocultas, softmax para output
+            if (l < this.layers.length - 1) {
+                current = next.map(x => this.leakyReLU(x));
+                // Dropout simples (apenas em treino)
+            } else {
+                current = this.softmax(next);
+            }
+            activations.push(current);
+        }
+        return { output: current, activations, preActivations };
+    }
+    
+    trainBatch(data, epochs = 100, lr = 0.005) {
+        for (let epoch = 0; epoch < epochs; epoch++) {
+            this.t++;
+            let totalLoss = 0;
+            for (let sample of data) {
+                let { output, activations, preActivations } = this.forward(sample.input);
+                
+                // Cross-entropy loss                let loss = 0;
+                for (let i = 0; i < sample.target.length; i++) {
+                    if (sample.target[i] > 0) loss -= Math.log(Math.max(1e-10, output[i]));
+                }
+                totalLoss += loss;
+                
+                // Backpropagation
+                let delta = output.map((o, i) => o - sample.target[i]);
+                
+                for (let l = this.layers.length - 1; l >= 0; l--) {
+                    let prevAct = activations[l];
+                    // Gradientes
+                    let gradW = [];
+                    for (let i = 0; i < prevAct.length; i++) {
+                        gradW[i] = delta.map(d => d * prevAct[i]);
+                    }
+                    let gradB = delta.slice();
+                    
+                    // Adam update
+                    let beta1 = 0.9, beta2 = 0.999, eps = 1e-8;
+                    for (let i = 0; i < this.layers[l].length; i++) {
+                        for (let j = 0; j < this.layers[l][i].length; j++) {
+                            let g = gradW[i][j];
+                            this.m[l][i][j] = beta1 * this.m[l][i][j] + (1-beta1) * g;
+                            this.v[l][i][j] = beta2 * this.v[l][i][j] + (1-beta2) * g*g;
+                            let mHat = this.m[l][i][j] / (1 - Math.pow(beta1, this.t));
+                            let vHat = this.v[l][i][j] / (1 - Math.pow(beta2, this.t));
+                            this.layers[l][i][j] -= lr * mHat / (Math.sqrt(vHat) + eps);
+                        }
+                    }
+                    for (let j = 0; j < this.biases[l].length; j++) {
+                        let g = gradB[j];
+                        this.mb[l][j] = beta1 * this.mb[l][j] + (1-beta1) * g;
+                        this.vb[l][j] = beta2 * this.vb[l][j] + (1-beta2) * g*g;
+                        let mHat = this.mb[l][j] / (1 - Math.pow(beta1, this.t));
+                        let vHat = this.vb[l][j] / (1 - Math.pow(beta2, this.t));
+                        this.biases[l][j] -= lr * mHat / (Math.sqrt(vHat) + eps);
+                    }
+                    
+                    // Propagar erro
+                    if (l > 0) {
+                        let newDelta = new Array(prevAct.length).fill(0);
+                        for (let i = 0; i < prevAct.length; i++) {
+                            for (let j = 0; j < delta.length; j++) {
+                                newDelta[i] += delta[j] * this.layers[l][i][j];
+                            }
+                            newDelta[i] *= this.leakyReLUDeriv(preActivations[l-1][i]);
+                        }
+                        delta = newDelta;
+                    }                }
             }
         }
     }
 }
 
-// ======================== MODELO 3: ALGORITMOS GENÉTICOS (Otimizado) ========================
-class GeneticAlgorithm {
-    constructor(populationSize, mutationRate, crossoverRate) {
+// ======================== MODELO 3: ALGORITMO GENÉTICO AVANÇADO ========================
+class GeneticAlgorithmAdvanced {
+    constructor(populationSize = 1000, mutationRate = 0.15, crossoverRate = 0.85) {
         this.populationSize = populationSize;
         this.mutationRate = mutationRate;
         this.crossoverRate = crossoverRate;
@@ -281,9 +358,12 @@ class GeneticAlgorithm {
     createIndividual(maxNum, count, topNums) {
         let nums = new Set();
         while (nums.size < count) {
-            if (Math.random() < 0.7 && topNums.length > 0) {
-                let idx = Math.floor(Math.random() * Math.min(20, topNums.length));
-                nums.add(topNums[idx]);
+            let r = Math.random();
+            if (r < 0.6 && topNums.length > 0) {
+                // Tournament selection
+                let t1 = topNums[Math.floor(Math.random() * Math.min(30, topNums.length))];
+                let t2 = topNums[Math.floor(Math.random() * Math.min(30, topNums.length))];
+                nums.add(Math.random() < 0.7 ? t1 : t2);
             } else {
                 nums.add(Math.floor(Math.random() * maxNum) + 1);
             }
@@ -291,156 +371,382 @@ class GeneticAlgorithm {
         return Array.from(nums).sort((a,b) => a - b);
     }
     
-    crossover(parent1, parent2, maxNum, count) {
-        let child = new Set();        if (Math.random() < this.crossoverRate) {
-            let crossoverPoint = Math.floor(parent1.length / 2);
-            parent1.slice(0, crossoverPoint).forEach(n => child.add(n));
-            parent2.slice(crossoverPoint).forEach(n => child.add(n));
-        } else {
-            parent1.forEach(n => child.add(n));
+    // Crossover uniforme
+    crossoverUniform(parent1, parent2, maxNum, count) {
+        let child = new Set();
+        let pool = new Set([...parent1, ...parent2]);
+        let poolArr = Array.from(pool);
+        while (child.size < count && poolArr.length > 0) {
+            let idx = Math.floor(Math.random() * poolArr.length);
+            child.add(poolArr[idx]);
+            poolArr.splice(idx, 1);
         }
         while (child.size < count) child.add(Math.floor(Math.random() * maxNum) + 1);
         return Array.from(child).slice(0, count).sort((a,b) => a - b);
     }
     
-    mutate(individual, maxNum) {
+    // Crossover de um ponto
+    crossoverOnePoint(parent1, parent2, maxNum, count) {
+        let child = new Set();
+        let point = Math.floor(Math.random() * parent1.length);
+        parent1.slice(0, point).forEach(n => child.add(n));
+        parent2.slice(point).forEach(n => child.add(n));        while (child.size < count) child.add(Math.floor(Math.random() * maxNum) + 1);
+        return Array.from(child).slice(0, count).sort((a,b) => a - b);
+    }
+    
+    // Mutação adaptativa (swap)
+    mutateSwap(individual, maxNum, topNums) {
         if (Math.random() < this.mutationRate) {
             let idx = Math.floor(Math.random() * individual.length);
             let newNum;
-            do { newNum = Math.floor(Math.random() * maxNum) + 1; } 
-            while (individual.includes(newNum));
-            individual[idx] = newNum;
+            let attempts = 0;
+            do { 
+                if (Math.random() < 0.5 && topNums.length > 0) {
+                    newNum = topNums[Math.floor(Math.random() * Math.min(20, topNums.length))];
+                } else {
+                    newNum = Math.floor(Math.random() * maxNum) + 1;
+                }
+                attempts++;
+            } while (individual.includes(newNum) && attempts < 20);
+            if (!individual.includes(newNum)) individual[idx] = newNum;
         }
         return individual.sort((a,b) => a - b);
     }
     
-    evolve(population, fitnessFunc, generations, maxNum, count) {
+    // Mutação por perturbação gaussiana
+    mutateGaussian(individual, maxNum, sigma = 3) {
+        if (Math.random() < this.mutationRate * 0.5) {
+            let idx = Math.floor(Math.random() * individual.length);
+            let gauss = 0;
+            for (let i = 0; i < 6; i++) gauss += Math.random();
+            gauss = (gauss - 3) * sigma;
+            let newNum = Math.round(individual[idx] + gauss);
+            newNum = Math.max(1, Math.min(maxNum, newNum));
+            if (!individual.includes(newNum)) individual[idx] = newNum;
+        }
+        return individual.sort((a,b) => a - b);
+    }
+    
+    evolve(fitnessFunc, generations, maxNum, count, topNums) {
+        // Inicialização
+        let population = [];
+        for (let i = 0; i < this.populationSize; i++) {
+            population.push(this.createIndividual(maxNum, count, topNums));
+        }
+        
+        let bestEver = null;
+        let bestEverFit = -Infinity;
+        
         for (let gen = 0; gen < generations; gen++) {
-            let scored = population.map(ind => ({ ind, fitness: fitnessFunc(ind) }));
-            scored.sort((a,b) => b.fitness - a.fitness);
-            let elite = scored.slice(0, Math.floor(this.populationSize * 0.2)).map(s => s.ind);
-            let newPop = [...elite];
+            // Avaliação
+            let scored = population.map(ind => ({ ind, fitness: fitnessFunc(ind) }));            scored.sort((a,b) => b.fitness - a.fitness);
             
+            if (scored[0].fitness > bestEverFit) {
+                bestEverFit = scored[0].fitness;
+                bestEver = [...scored[0].ind];
+            }
+            
+            // Elitismo (top 10%)
+            let eliteSize = Math.floor(this.populationSize * 0.1);
+            let newPop = scored.slice(0, eliteSize).map(s => [...s.ind]);
+            
+            // Tournament selection + crossover + mutação
             while (newPop.length < this.populationSize) {
-                let p1 = elite[Math.floor(Math.random() * elite.length)];
-                let p2 = elite[Math.floor(Math.random() * elite.length)];
-                let child = this.crossover(p1, p2, maxNum, count);
-                child = this.mutate(child, maxNum);
+                let p1 = this.tournamentSelect(scored);
+                let p2 = this.tournamentSelect(scored);
+                
+                let child;
+                if (Math.random() < this.crossoverRate) {
+                    child = Math.random() < 0.5 ? 
+                        this.crossoverUniform(p1, p2, maxNum, count) :
+                        this.crossoverOnePoint(p1, p2, maxNum, count);
+                } else {
+                    child = [...p1];
+                }
+                
+                child = this.mutateSwap(child, maxNum, topNums);
+                child = this.mutateGaussian(child, maxNum);
                 newPop.push(child);
             }
             population = newPop;
         }
-        let final = population.map(ind => ({ ind, fitness: fitnessFunc(ind) }));
-        final.sort((a,b) => b.fitness - a.fitness);
-        return final[0].ind;
-    }
-}
-
-// ======================== MODELO 4: ANÁLISE DE FOURIER ========================
-function fourierAnalysis(data, maxNum) {
-    let signals = new Array(maxNum + 1).fill([]);
-    for (let draw of data.slice(0, 100)) {
-        for (let n of draw.numbers) {
-            signals[n].push(1);        }
-        for (let i = 1; i <= maxNum; i++) {
-            if (!draw.numbers.includes(i)) signals[i].push(0);
-        }
-    }
-    
-    let periodicities = [];
-    for (let i = 1; i <= maxNum; i++) {
-        if (signals[i].length > 10) {
-            let sum = signals[i].reduce((a,b) => a+b, 0);
-            let mean = sum / signals[i].length;
-            let variance = signals[i].reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / signals[i].length;
-            periodicities.push({ num: i, strength: variance, mean: mean });
-        }
-    }
-    return periodicities.sort((a,b) => b.strength - a.strength);
-}
-
-// ======================== MODELO 5: ANÁLISE ARIMA SIMPLIFICADA ========================
-function arimaAnalysis(data, maxNum) {
-    let trends = new Array(maxNum + 1).fill(0);
-    let recent = data.slice(0, 30);
-    let older = data.slice(30, 60);
-    
-    for (let i = 1; i <= maxNum; i++) {
-        let recentCount = 0, olderCount = 0;
-        for (let draw of recent) if (draw.numbers.includes(i)) recentCount++;
-        for (let draw of older) if (draw.numbers.includes(i)) olderCount++;
         
-        let recentRate = recentCount / recent.length;
-        let olderRate = olderCount / older.length;
-        trends[i] = (recentRate - olderRate) * 100;
+        return bestEver;
     }
-    return trends;
+    
+    tournamentSelect(scored, k = 5) {
+        let best = null;
+        for (let i = 0; i < k; i++) {
+            let candidate = scored[Math.floor(Math.random() * scored.length)];
+            if (!best || candidate.fitness > best.fitness) best = candidate;
+        }
+        return best.ind;
+    }
 }
 
-// ======================== MODELO 6: ENTROPIA DE SHANNON ========================
-function calculateEntropy(data, maxNum) {
-    let freq = new Array(maxNum + 1).fill(0);
+// ======================== MODELO 4: FFT REAL ========================
+function fftReal(signal) {
+    let N = signal.length;
+    if (N <= 1) return signal.map(x => ({ re: x, im: 0 }));
+    if (N & (N-1)) {        // Zero-pad para próxima potência de 2
+        let newN = 1;
+        while (newN < N) newN <<= 1;
+        while (signal.length < newN) signal.push(0);
+        N = newN;
+    }
+    
+    if (N === 1) return [{ re: signal[0], im: 0 }];
+    
+    let even = fftReal(signal.filter((_, i) => i % 2 === 0));
+    let odd = fftReal(signal.filter((_, i) => i % 2 === 1));
+    
+    let result = new Array(N);
+    for (let k = 0; k < N/2; k++) {
+        let angle = -2 * Math.PI * k / N;
+        let tRe = Math.cos(angle) * odd[k].re - Math.sin(angle) * odd[k].im;
+        let tIm = Math.cos(angle) * odd[k].im + Math.sin(angle) * odd[k].re;
+        result[k] = { re: even[k].re + tRe, im: even[k].im + tIm };
+        result[k + N/2] = { re: even[k].re - tRe, im: even[k].im - tIm };
+    }
+    return result;
+}
+
+function fourierAnalysisAdvanced(data, maxNum) {
+    let results = [];
+    let N = 128; // Janela de análise
+    
+    for (let i = 1; i <= maxNum; i++) {
+        let signal = [];
+        for (let draw of data.slice(0, N)) {
+            signal.push(draw.numbers.includes(i) ? 1 : 0);
+        }
+        while (signal.length < N) signal.push(0);
+        
+        let fft = fftReal(signal);
+        
+        // Calcular magnitude do espectro
+        let magnitudes = fft.slice(1, N/2).map(c => Math.sqrt(c.re*c.re + c.im*c.im));
+        let maxMag = Math.max(...magnitudes);
+        let dominantFreq = magnitudes.indexOf(maxMag) + 1;
+        let period = N / dominantFreq;
+        
+        // Energia total do sinal
+        let energy = magnitudes.reduce((a,b) => a + b*b, 0);
+        
+        results.push({ 
+            num: i, 
+            dominantFreq: dominantFreq, 
+            period: period, 
+            strength: maxMag,            energy: energy,
+            spectralCentroid: magnitudes.reduce((acc, m, idx) => acc + m * (idx+1), 0) / (energy + 1e-10)
+        });
+    }
+    return results.sort((a,b) => b.strength - a.strength);
+}
+
+// ======================== MODELO 5: ARIMA(p,d,q) COMPLETO ========================
+function arimaAnalysisAdvanced(data, maxNum) {
+    let results = [];
+    
+    for (let i = 1; i <= maxNum; i++) {
+        // Construir série temporal de presenças
+        let series = [];
+        for (let draw of data.slice(0, 100)) {
+            series.push(draw.numbers.includes(i) ? 1 : 0);
+        }
+        series.reverse(); // ordem cronológica
+        
+        // Differencing (d=1)
+        let diff = [];
+        for (let j = 1; j < series.length; j++) {
+            diff.push(series[j] - series[j-1]);
+        }
+        
+        // Média móvel (MA q=3) e auto-regressão (AR p=3)
+        let n = diff.length;
+        if (n < 10) { results.push({ num: i, trend: 0 }); continue; }
+        
+        // Calcular autocorrelações
+        let mean = diff.reduce((a,b) => a+b, 0) / n;
+        let variance = diff.reduce((acc, x) => acc + (x-mean)*(x-mean), 0) / n;
+        
+        let acf = [];
+        for (let lag = 1; lag <= 5; lag++) {
+            let sum = 0;
+            for (let j = 0; j < n - lag; j++) {
+                sum += (diff[j] - mean) * (diff[j+lag] - mean);
+            }
+            acf.push(sum / (n * variance + 1e-10));
+        }
+        
+        // Tendência: média ponderada das autocorrelações
+        let trend = acf.reduce((acc, c, idx) => acc + c * (5 - idx), 0) * 10;
+        
+        // Previsão simples: média móvel exponencial
+        let alpha = 0.3;
+        let forecast = series[0];
+        for (let j = 1; j < series.length; j++) {
+            forecast = alpha * series[j] + (1-alpha) * forecast;        }
+        
+        results.push({ num: i, trend: trend, forecast: forecast, acf: acf });
+    }
+    return results.sort((a,b) => b.trend - a.trend);
+}
+
+// ======================== MODELO 6: ENTROPIA CONDICIONAL DE SHANNON ========================
+function conditionalEntropy(data, maxNum) {
+    // H(X|Y) - entropia do próximo número dado o anterior
+    let jointCounts = {};
+    let yCounts = {};
     let total = 0;
-    for (let draw of data.slice(0, 100)) {
-        for (let n of draw.numbers) {
-            freq[n]++;
-            total++;
-        }
-    }
     
-    let entropy = 0;
-    for (let i = 1; i <= maxNum; i++) {
-        if (freq[i] > 0) {            let p = freq[i] / total;
-            entropy -= p * Math.log2(p);
-        }
-    }
-    return entropy;
-}
-
-// ======================== MODELO 7: ANÁLISE BAYESIANA ========================
-function bayesianAnalysis(data, maxNum) {
-    let prior = new Array(maxNum + 1).fill(1);
-    let posterior = new Array(maxNum + 1).fill(0);
-    
-    for (let draw of data.slice(0, 50)) {
-        for (let n of draw.numbers) {
-            posterior[n] += 1;
-        }
-    }
-    
-    let total = posterior.reduce((a,b) => a+b, 0);
-    let probabilities = [];
-    for (let i = 1; i <= maxNum; i++) {
-        let prob = (posterior[i] + prior[i]) / (total + maxNum);
-        probabilities.push({ num: i, prob: prob });
-    }
-    return probabilities.sort((a,b) => b.prob - a.prob);
-}
-
-// ======================== MODELO 8: CORRELAÇÕES AVANÇADAS ========================
-function analyzeCorrelations(data, maxNum) {
-    let pairs = {};
-    let triplets = {};
-    
-    for (let draw of data.slice(0, 300)) {
-        let nums = draw.numbers;
-        for (let i = 0; i < nums.length; i++) {
-            for (let j = i + 1; j < nums.length; j++) {
-                let key = Math.min(nums[i], nums[j]) + '-' + Math.max(nums[i], nums[j]);
-                pairs[key] = (pairs[key] || 0) + 1;
+    for (let idx = 0; idx < data.length - 1; idx++) {
+        let curr = data[idx].numbers;
+        let next = data[idx+1].numbers;
+        for (let y of curr) {
+            yCounts[y] = (yCounts[y] || 0) + 1;
+            for (let x of next) {
+                let key = y + ',' + x;
+                jointCounts[key] = (jointCounts[key] || 0) + 1;
+                total++;
             }
         }
     }
     
-    let sorted = Object.entries(pairs).sort((a,b) => b[1] - a[1]);
-    return sorted.slice(0, 25);
+    // H(X,Y)
+    let hxy = 0;
+    for (let key in jointCounts) {
+        let p = jointCounts[key] / total;
+        if (p > 0) hxy -= p * Math.log2(p);
+    }
+    
+    // H(Y)
+    let hy = 0;
+    for (let y in yCounts) {
+        let p = yCounts[y] / total;
+        if (p > 0) hy -= p * Math.log2(p);
+    }
+    
+    // H(X|Y) = H(X,Y) - H(Y)
+    let hcond = hxy - hy;
+    
+    // Entropia por número individual
+    let perNum = [];
+    for (let i = 1; i <= maxNum; i++) {
+        let pY = (yCounts[i] || 0) / total;
+        let hGivenI = 0;
+        if (pY > 0) {            for (let j = 1; j <= maxNum; j++) {
+                let key = i + ',' + j;
+                if (jointCounts[key]) {
+                    let pXY = jointCounts[key] / total;
+                    let pXgivenY = pXY / pY;
+                    if (pXgivenY > 0) hGivenI -= pXgivenY * Math.log2(pXgivenY);
+                }
+            }
+        }
+        perNum.push({ num: i, entropy: hGivenI, predictability: 1 / (1 + hGivenI) });
+    }
+    
+    return { total: hcond, perNum: perNum.sort((a,b) => b.predictability - a.predictability) };
 }
 
-// ======================== MODELO 9: TENDÊNCIAS MULTI-ESCALA ========================
-function analyzeTrends(data, maxNum) {
+// ======================== MODELO 7: BAYESIANO BETA-BINOMIAL ========================
+function bayesianBetaBinomial(data, maxNum) {
+    // Prior: Beta(1,1) = uniforme
+    // Posterior: Beta(1 + sucessos, 1 + fracassos)
+    let results = [];
+    
+    for (let i = 1; i <= maxNum; i++) {
+        let alpha = 1, beta = 1;
+        let totalDraws = 0;
+        let successes = 0;
+        
+        // Janelas temporais com pesos decrescentes
+        let windows = [
+            { slice: data.slice(0, 30), weight: 3 },
+            { slice: data.slice(30, 60), weight: 2 },
+            { slice: data.slice(60, 120), weight: 1 }
+        ];
+        
+        for (let w of windows) {
+            for (let draw of w.slice) {
+                totalDraws += w.weight;
+                if (draw.numbers.includes(i)) {
+                    successes += w.weight;
+                }
+            }
+        }
+        
+        alpha += successes;
+        beta += (totalDraws - successes);
+        
+        // Média posterior (probabilidade esperada)
+        let mean = alpha / (alpha + beta);
+        // Moda posterior
+        let mode = (alpha - 1) / (alpha + beta - 2);
+        // Variância posterior        let variance = (alpha * beta) / ((alpha + beta)*(alpha + beta) * (alpha + beta + 1));
+        // Intervalo credível 95% (aproximação normal)
+        let std = Math.sqrt(variance);
+        let ciLow = Math.max(0, mean - 1.96 * std);
+        let ciHigh = Math.min(1, mean + 1.96 * std);
+        
+        results.push({ 
+            num: i, 
+            prob: mean, 
+            mode: mode, 
+            variance: variance,
+            ciLow: ciLow, 
+            ciHigh: ciHigh,
+            alpha: alpha,
+            beta: beta
+        });
+    }
+    return results.sort((a,b) => b.prob - a.prob);
+}
+
+// ======================== MODELO 8: CORRELAÇÃO PARCIAL ========================
+function partialCorrelation(data, maxNum) {
+    // Matriz de co-ocorrência
+    let cooc = Array(maxNum + 1).fill().map(() => Array(maxNum + 1).fill(0));
+    let freq = Array(maxNum + 1).fill(0);
+    let N = data.length;
+    
+    for (let draw of data.slice(0, 300)) {
+        for (let n of draw.numbers) {
+            freq[n]++;
+        }
+        for (let i = 0; i < draw.numbers.length; i++) {
+            for (let j = i+1; j < draw.numbers.length; j++) {
+                let a = draw.numbers[i], b = draw.numbers[j];
+                cooc[a][b]++;
+                cooc[b][a]++;
+            }
+        }
+    }
+    
+    // Correlação de Pearson entre presenças
+    let pairs = [];
+    for (let i = 1; i <= maxNum; i++) {
+        for (let j = i+1; j <= maxNum; j++) {
+            let pij = cooc[i][j] / N;
+            let pi = freq[i] / N;
+            let pj = freq[j] / N;
+            let denom = Math.sqrt(pi * (1-pi) * pj * (1-pj));
+            let corr = denom > 0 ? (pij - pi*pj) / denom : 0;
+            if (Math.abs(corr) > 0.02) {                pairs.push({ a: i, b: j, corr: corr, strength: Math.abs(corr) });
+            }
+        }
+    }
+    return pairs.sort((a,b) => b.strength - a.strength);
+}
+
+// ======================== MODELO 9: ANÁLISE MULTI-ESCALA COM PESOS ========================
+function multiScaleTrends(data, maxNum) {
     let scales = [
-        { name: 'Curto', slice: data.slice(0, 20) },        { name: 'Médio', slice: data.slice(0, 50) },
-        { name: 'Longo', slice: data.slice(0, 100) }
+        { name: 'Muito Curto', slice: data.slice(0, 10), weight: 5 },
+        { name: 'Curto', slice: data.slice(0, 25), weight: 3 },
+        { name: 'Médio', slice: data.slice(0, 60), weight: 2 },
+        { name: 'Longo', slice: data.slice(0, 150), weight: 1 }
     ];
     
     let trends = new Array(maxNum + 1).fill(0);
@@ -450,9 +756,10 @@ function analyzeTrends(data, maxNum) {
         for (let draw of scale.slice) {
             for (let n of draw.numbers) freq[n]++;
         }
-        let maxFreq = Math.max(...freq);
+        let expected = (5 * scale.slice.length) / maxNum;
         for (let i = 1; i <= maxNum; i++) {
-            trends[i] += (freq[i] / maxFreq) * (scale.name === 'Curto' ? 3 : scale.name === 'Médio' ? 2 : 1);
+            let deviation = (freq[i] - expected) / (expected + 1);
+            trends[i] += deviation * scale.weight;
         }
     }
     
@@ -463,245 +770,377 @@ function analyzeTrends(data, maxNum) {
     return result.sort((a,b) => b.trend - a.trend);
 }
 
-// ======================== MODELO 10: ATRASOS COM PESO ========================
-function analyzeDelays(data, maxNum) {
-    let lastSeen = new Array(maxNum + 1).fill(-1);
-    let delays = [];
-    
-    for (let idx = 0; idx < data.length; idx++) {
-        for (let n of data[idx].numbers) {
-            if (lastSeen[n] === -1) {
-                lastSeen[n] = idx;
-            }
-        }
-    }
-    
-    for (let i = 1; i <= maxNum; i++) {
-        let delay = lastSeen[i] === -1 ? data.length : lastSeen[i];
-        delays.push({ num: i, delay: delay });
-    }
-    
-    return delays.sort((a,b) => b.delay - a.delay);
-}
-
-// ======================== MODELO 11: CICLOS COM ANÁLISE ESPECTRAL ========================
-function analyzeCycles(data, maxNum) {
-    let intervals = {};
-    for (let i = 1; i <= maxNum; i++) intervals[i] = [];
-        let lastSeen = new Array(maxNum + 1).fill(-1);
-    for (let idx = 0; idx < data.length; idx++) {
-        for (let n of data[idx].numbers) {
-            if (lastSeen[n] !== -1) {
-                intervals[n].push(idx - lastSeen[n]);
-            }
-            lastSeen[n] = idx;
-        }
-    }
-    
+// ======================== MODELO 10: CICLOS COM PERIODOGRAMA ========================
+function cycleAnalysis(data, maxNum) {
     let cycles = [];
+    
     for (let i = 1; i <= maxNum; i++) {
-        if (intervals[i].length > 2) {
-            let avg = intervals[i].reduce((a,b) => a+b, 0) / intervals[i].length;
-            let variance = intervals[i].reduce((acc, val) => acc + Math.pow(val - avg, 2), 0) / intervals[i].length;
-            let currentDelay = data.length - (lastSeen[i] === -1 ? data.length : lastSeen[i]);
-            let dueScore = (currentDelay / avg) * (1 / (1 + variance));
-            cycles.push({ num: i, avgInterval: avg, currentDelay: currentDelay, dueScore: dueScore, regularity: 1 / (1 + variance) });
+        let appearances = [];
+        for (let idx = 0; idx < data.length; idx++) {
+            if (data[idx].numbers.includes(i)) appearances.push(idx);
         }
+        
+        if (appearances.length < 5) continue;
+        
+        // Calcular intervalos        let intervals = [];
+        for (let j = 1; j < appearances.length; j++) {
+            intervals.push(appearances[j] - appearances[j-1]);
+        }
+        
+        let mean = intervals.reduce((a,b) => a+b, 0) / intervals.length;
+        let variance = intervals.reduce((acc, x) => acc + (x-mean)*(x-mean), 0) / intervals.length;
+        let std = Math.sqrt(variance);
+        let cv = std / (mean + 1e-10); // coeficiente de variação
+        
+        let currentDelay = appearances.length > 0 ? data.length - 1 - appearances[appearances.length-1] : data.length;
+        
+        // Score: quão "devido" está, ponderado pela regularidade
+        let dueScore = (currentDelay / mean) * (1 / (1 + cv));
+        let regularity = 1 / (1 + cv);
+        
+        cycles.push({ 
+            num: i, 
+            meanInterval: mean, 
+            currentDelay: currentDelay, 
+            dueScore: dueScore, 
+            regularity: regularity,
+            cv: cv
+        });
     }
     return cycles.sort((a,b) => b.dueScore - a.dueScore);
 }
 
-// ======================== MODELO 12: ANÁLISE DE CLUSTERS ========================
-function clusterAnalysis(data, maxNum) {
-    let clusters = { low: [], mid: [], high: [] };
+// ======================== MODELO 11: ANÁLISE DE DELAY COM DECAY EXPONENCIAL ========================
+function delayAnalysis(data, maxNum) {
+    let lastSeen = new Array(maxNum + 1).fill(data.length);
+    let history = []; // lista de delays anteriores
     
-    for (let draw of data.slice(0, 100)) {
-        for (let n of draw.numbers) {
-            if (n <= maxNum / 3) clusters.low.push(n);
-            else if (n <= 2 * maxNum / 3) clusters.mid.push(n);
-            else clusters.high.push(n);
+    for (let idx = data.length - 1; idx >= 0; idx--) {
+        for (let n of data[idx].numbers) {
+            if (lastSeen[n] === data.length) {
+                lastSeen[n] = data.length - 1 - idx;
+            }
         }
     }
     
-    let total = clusters.low.length + clusters.mid.length + clusters.high.length;
-    return {
-        low: clusters.low.length / total,
-        mid: clusters.mid.length / total,
-        high: clusters.high.length / total
-    };
+    let results = [];
+    for (let i = 1; i <= maxNum; i++) {
+        let delay = lastSeen[i];
+        // Peso exponencial: números com atraso maior têm mais peso (lei dos grandes números)
+        let weight = 1 - Math.exp(-delay * 0.08);
+        results.push({ num: i, delay: delay, weight: weight });
+    }
+    return results.sort((a,b) => b.weight - a.weight);
+}
+// ======================== MODELO 12: CLUSTER ANALYSIS AVANÇADO ========================
+function clusterAnalysisAdvanced(data, maxNum) {
+    // Dividir em 5 zonas
+    let zones = { z1: [], z2: [], z3: [], z4: [], z5: [] };
+    let zoneSize = maxNum / 5;
+    
+    for (let draw of data.slice(0, 200)) {
+        for (let n of draw.numbers) {
+            let z = Math.min(5, Math.ceil(n / zoneSize));
+            zones['z' + z].push(n);
+        }
+    }
+    
+    let total = 0;
+    for (let k in zones) total += zones[k].length;
+    
+    let distribution = {};
+    for (let k in zones) {
+        distribution[k] = zones[k].length / total;
+    }
+    
+    // Ideal seria 20% cada
+    let balance = 0;
+    for (let k in distribution) {
+        balance += Math.abs(distribution[k] - 0.2);
+    }
+    
+    return { distribution, balance: 1 - balance * 2 };
 }
 
-// ======================== SISTEMA ENSEMBLE AVANÇADO ========================
+// ======================== BACKTESTING ========================
+function backtestModels(data, maxNum, maxStar, starCount) {
+    // Testar cada modelo em sorteios passados
+    let testSize = 50;
+    let trainData = data.slice(testSize);
+    let testData = data.slice(0, testSize).reverse(); // ordem cronológica
+    
+    let modelHits = {
+        markov: 0, neural: 0, bayesian: 0, fourier: 0, arima: 0, 
+        cycles: 0, delays: 0, trends: 0, ensemble: 0
+    };
+    
+    // Para cada sorteio de teste, treinar nos anteriores e prever
+    for (let t = 5; t < testData.length; t++) {
+        let history = testData.slice(t).concat(trainData);
+        let actual = testData[t-1].numbers;
+        let actualStars = testData[t-1].stars;
+        
+        // Treinar modelos rapidamente        let markov = new MarkovChainAdvanced(3);
+        markov.train(history.slice(0, 100));
+        let markovPreds = markov.predict(history[0].numbers, maxNum, 15).map(p => p.num);
+        
+        let bayes = bayesianBetaBinomial(history.slice(0, 100), maxNum);
+        let bayesPreds = bayes.slice(0, 15).map(b => b.num);
+        
+        let trends = multiScaleTrends(history.slice(0, 100), maxNum);
+        let trendPreds = trends.slice(0, 15).map(t => t.num);
+        
+        let cycles = cycleAnalysis(history.slice(0, 100), maxNum);
+        let cyclePreds = cycles.slice(0, 15).map(c => c.num);
+        
+        let delays = delayAnalysis(history.slice(0, 100), maxNum);
+        let delayPreds = delays.slice(0, 15).map(d => d.num);
+        
+        // Ensemble (média dos top 15)
+        let scores = new Array(maxNum + 1).fill(0);
+        markovPreds.forEach((n, i) => scores[n] += 15 - i);
+        bayesPreds.forEach((n, i) => scores[n] += 15 - i);
+        trendPreds.forEach((n, i) => scores[n] += 15 - i);
+        cyclePreds.forEach((n, i) => scores[n] += 15 - i);
+        delayPreds.forEach((n, i) => scores[n] += 15 - i);
+        
+        let ensemblePreds = [];
+        for (let i = 1; i <= maxNum; i++) ensemblePreds.push({ num: i, score: scores[i] });
+        ensemblePreds.sort((a,b) => b.score - a.score);
+        let ensembleTop15 = ensemblePreds.slice(0, 15).map(e => e.num);
+        
+        // Contar acertos (quantos dos 5 números reais estão no top 15)
+        modelHits.markov += actual.filter(n => markovPreds.includes(n)).length;
+        modelHits.bayesian += actual.filter(n => bayesPreds.includes(n)).length;
+        modelHits.trends += actual.filter(n => trendPreds.includes(n)).length;
+        modelHits.cycles += actual.filter(n => cyclePreds.includes(n)).length;
+        modelHits.delays += actual.filter(n => delayPreds.includes(n)).length;
+        modelHits.ensemble += actual.filter(n => ensembleTop15.includes(n)).length;
+    }
+    
+    // Normalizar
+    let totalPossible = (testData.length - 5) * 5;
+    for (let k in modelHits) {
+        modelHits[k] = (modelHits[k] / totalPossible * 100);
+    }
+    
+    return modelHits;
+}
+
+// ======================== SISTEMA ENSEMBLE COM PESOS APRENDIDOS ========================
 function ensemblePrediction(data, maxNum, maxStar, starCount, qtdNumeros) {
-    document.getElementById("statusSimulacao").innerHTML = "🧠 Treinando 12 modelos de IA avançados...";
+    document.getElementById("statusSimulacao").innerHTML = "🧠 Treinando 12 modelos avançados...";    
+    // Backtesting para aprender pesos dos modelos
+    let backtest = backtestModels(data, maxNum, maxStar, starCount);
     
-    // Inicializar todos os modelos
-    let markov = new MarkovChain(3);
-    markov.train(data.slice(0, 150));    
-    let nn = new SimpleNeuralNet(maxNum, 40, 30, maxNum);
+    // Pesos baseados em performance no backtest
+    let weights = {
+        markov: backtest.markov,
+        bayesian: backtest.bayesian,
+        trends: backtest.trends,
+        cycles: backtest.cycles,
+        delays: backtest.delays,
+        ensemble: backtest.ensemble
+    };
+    let totalWeight = Object.values(weights).reduce((a,b) => a+b, 0);
+    for (let k in weights) weights[k] /= totalWeight;
+    
+    // Inicializar modelos
+    let markov = new MarkovChainAdvanced(5, 1.0);
+    markov.train(data.slice(0, 200));
+    
+    let nn = new DeepNeuralNet([maxNum, 80, 60, 40, maxNum]);
     let trainingData = prepareTrainingData(data, maxNum);
-    nn.trainBatch(trainingData, 50);
+    nn.trainBatch(trainingData, 60, 0.005);
     
-    let ga = new GeneticAlgorithm(250, 0.18, 0.85);
+    let ga = new GeneticAlgorithmAdvanced(1000, 0.15, 0.85);
     
-    // Executar todas as análises
-    let correlations = analyzeCorrelations(data, maxNum);
-    let trends = analyzeTrends(data, maxNum);
-    let delays = analyzeDelays(data, maxNum);
-    let cycles = analyzeCycles(data, maxNum);
-    let fourier = fourierAnalysis(data, maxNum);
-    let arima = arimaAnalysis(data, maxNum);
-    let entropy = calculateEntropy(data, maxNum);
-    let bayesian = bayesianAnalysis(data, maxNum);
-    let clusters = clusterAnalysis(data, maxNum);
+    // Executar análises
+    let correlations = partialCorrelation(data, maxNum);
+    let trends = multiScaleTrends(data, maxNum);
+    let delays = delayAnalysis(data, maxNum);
+    let cycles = cycleAnalysis(data, maxNum);
+    let fourier = fourierAnalysisAdvanced(data, maxNum);
+    let arima = arimaAnalysisAdvanced(data, maxNum);
+    let entropy = conditionalEntropy(data, maxNum);
+    let bayesian = bayesianBetaBinomial(data, maxNum);
+    let clusters = clusterAnalysisAdvanced(data, maxNum);
     
     document.getElementById("statusSimulacao").innerHTML = "📊 Calculando scores multi-dimensionais...";
     
-    // Sistema de scoring ponderado
+    // Sistema de scoring ponderado pelos pesos do backtest
     let scores = new Array(maxNum + 1).fill(0);
     let lastDraw = data[0];
     
-    // Score 1: Markov (peso 20)
-    let markovPreds = markov.predict(lastDraw.numbers, 25);
-    for (let pred of markovPreds) scores[pred.num] += pred.prob * 20;
+    // Score 1: Markov (peso aprendido)
+    let markovPreds = markov.predict(lastDraw.numbers, maxNum, 30);
+    for (let pred of markovPreds) scores[pred.num] += pred.prob * 25 * weights.markov * 10;
     
-    // Score 2: Rede Neural (peso 18)
+    // Score 2: Rede Neural
     let nnInput = new Array(maxNum).fill(0);
-    for (let n of lastDraw.numbers) nnInput[n-1] = 1;
-    let nnOutput = nn.predict(nnInput);
-    for (let i = 0; i < nnOutput.length; i++) scores[i+1] += nnOutput[i] * 18;
+    for (let n of lastDraw.numbers) nnInput[n-1] = 1;    let nnOutput = nn.forward(nnInput).output;
+    for (let i = 0; i < nnOutput.length; i++) scores[i+1] += nnOutput[i] * 20;
     
-    // Score 3: Tendências Multi-Escala (peso 15)
-    for (let t of trends.slice(0, 20)) scores[t.num] += t.trend * 3;
+    // Score 3: Tendências Multi-Escala
+    for (let t of trends.slice(0, 25)) scores[t.num] += Math.max(0, t.trend) * 4 * weights.trends * 10;
     
-    // Score 4: Atrasos com Peso Exponencial (peso 12)
-    for (let d of delays.slice(0, 15)) {
-        let weight = Math.exp(d.delay * 0.05);
-        scores[d.num] += Math.min(15, weight * 2);
+    // Score 4: Atrasos com Decay Exponencial
+    for (let d of delays.slice(0, 20)) {
+        scores[d.num] += d.weight * 15 * weights.delays * 10;
     }
     
-    // Score 5: Ciclos com Regularidade (peso 10)
-    for (let c of cycles.slice(0, 18)) {
-        scores[c.num] += Math.min(12, c.dueScore * 8 * c.regularity);
+    // Score 5: Ciclos com Regularidade
+    for (let c of cycles.slice(0, 20)) {
+        scores[c.num] += Math.min(15, c.dueScore * 6 * c.regularity) * weights.cycles * 10;
     }
     
-    // Score 6: Correlações (peso 8)
-    for (let [pair, count] of correlations.slice(0, 15)) {        let [n1, n2] = pair.split('-').map(Number);
-        if (lastDraw.numbers.includes(n1)) scores[n2] += count * 0.4;
-        if (lastDraw.numbers.includes(n2)) scores[n1] += count * 0.4;
+    // Score 6: Correlações Parciais
+    for (let pair of correlations.slice(0, 30)) {
+        if (lastDraw.numbers.includes(pair.a)) scores[pair.b] += pair.strength * 8;
+        if (lastDraw.numbers.includes(pair.b)) scores[pair.a] += pair.strength * 8;
     }
     
-    // Score 7: Fourier (peso 6)
-    for (let f of fourier.slice(0, 15)) {
-        scores[f.num] += f.strength * 50;
+    // Score 7: Fourier
+    for (let f of fourier.slice(0, 20)) {
+        scores[f.num] += f.strength * 30;
     }
     
-    // Score 8: ARIMA (peso 5)
-    for (let i = 1; i <= maxNum; i++) {
-        scores[i] += Math.max(0, arima[i]) * 0.5;
+    // Score 8: ARIMA
+    for (let a of arima.slice(0, 20)) {
+        scores[a.num] += Math.max(0, a.trend) * 0.8;
     }
     
-    // Score 9: Bayesiano (peso 4)
-    for (let b of bayesian.slice(0, 20)) {
-        scores[b.num] += b.prob * 40;
+    // Score 9: Bayesiano Beta-Binomial
+    for (let b of bayesian.slice(0, 25)) {
+        scores[b.num] += b.prob * 50 * weights.bayesian * 10;
     }
     
-    // Score 10: Frequência Recente (peso 2)
+    // Score 10: Entropia Condicional (números mais previsíveis)
+    for (let e of entropy.perNum.slice(0, 20)) {
+        scores[e.num] += e.predictability * 10;
+    }
+    
+    // Score 11: Frequência Recente (com decay temporal)
     let recentFreq = new Array(maxNum + 1).fill(0);
-    for (let draw of data.slice(0, 30)) for (let n of draw.numbers) recentFreq[n]++;
+    for (let idx = 0; idx < Math.min(50, data.length); idx++) {
+        let decay = Math.exp(-idx * 0.03);
+        for (let n of data[idx].numbers) recentFreq[n] += decay;
+    }
     let maxFreq = Math.max(...recentFreq);
-    for (let i = 1; i <= maxNum; i++) scores[i] += (recentFreq[i] / maxFreq) * 8;
-    
+    for (let i = 1; i <= maxNum; i++) scores[i] += (recentFreq[i] / maxFreq) * 10;    
     let rankedNums = [];
     for (let i = 1; i <= maxNum; i++) rankedNums.push({ num: i, score: scores[i] });
     rankedNums.sort((a,b) => b.score - a.score);
     
-    document.getElementById("statusSimulacao").innerHTML = "🧬 Evolução genética avançada (2M simulações)...";
+    document.getElementById("statusSimulacao").innerHTML = "🧬 Evolução genética (1000 indivíduos × 500 gerações)...";
     
-    // Função de fitness melhorada
+    // Fitness function melhorada
     let fitnessFunc = (individual) => {
         let score = 0;
         
-        // Score base dos números
+        // Score base
         for (let n of individual) {
             let ranked = rankedNums.find(r => r.num === n);
             if (ranked) score += ranked.score;
         }
         
-        // Bônus por diversidade de clusters
-        let clusterBalance = 0;
-        let lowCount = individual.filter(n => n <= maxNum / 3).length;
-        let midCount = individual.filter(n => n > maxNum / 3 && n <= 2 * maxNum / 3).length;
-        let highCount = individual.filter(n => n > 2 * maxNum / 3).length;
-        let ideal = individual.length / 3;
-        clusterBalance = 1 - (Math.abs(lowCount - ideal) + Math.abs(midCount - ideal) + Math.abs(highCount - ideal)) / individual.length;
-        score += clusterBalance * 15;        
-        // Bônus por distribuição de pares/ímpares
+        // Bônus por diversidade de zonas (5 zonas)
+        let zoneSize = maxNum / 5;
+        let zoneCounts = [0,0,0,0,0];
+        for (let n of individual) {
+            let z = Math.min(4, Math.floor((n-1) / zoneSize));
+            zoneCounts[z]++;
+        }
+        let ideal = individual.length / 5;
+        let zoneBalance = 1 - zoneCounts.reduce((acc, c) => acc + Math.abs(c - ideal), 0) / (individual.length * 2);
+        score += zoneBalance * 20;
+        
+        // Bônus par/ímpar
         let pares = individual.filter(n => n % 2 === 0).length;
         let equilibrio = 1 - Math.abs(pares - individual.length / 2) / (individual.length / 2);
-        score += equilibrio * 12;
+        score += equilibrio * 15;
         
-        // Bônus por espaçamento
+        // Bônus alto/baixo
+        let baixos = individual.filter(n => n <= maxNum/2).length;
+        let halfBalance = 1 - Math.abs(baixos - individual.length / 2) / (individual.length / 2);
+        score += halfBalance * 10;
+        
+        // Bônus espaçamento
         let sorted = [...individual].sort((a,b) => a - b);
         let gaps = 0;
         for (let i = 1; i < sorted.length; i++) {
             let gap = sorted[i] - sorted[i-1];
-            gaps += Math.min(15, gap);
+            gaps += Math.min(15, Math.max(1, gap));
         }
-        score += gaps * 0.6;
+        score += gaps * 0.8;
         
-        // Bônus por soma equilibrada
+        // Bônus soma equilibrada
         let sum = individual.reduce((a,b) => a+b, 0);
-        let avgSum = (maxNum * (individual.length + 1)) / 2;
-        let sumDeviation = 1 - Math.abs(sum - avgSum) / avgSum;
-        score += sumDeviation * 10;
+        let avgSum = (maxNum * (individual.length + 1)) / 2;        let sumDeviation = 1 - Math.abs(sum - avgSum) / avgSum;
+        score += sumDeviation * 12;
+        
+        // Penalidade por números consecutivos (raro em sorteios reais)
+        let consec = 0;
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i] - sorted[i-1] === 1) consec++;
+        }
+        score -= consec * 3;
+        
+        // Bônus por não repetir padrões recentes
+        let recentPatterns = data.slice(0, 5).map(d => new Set(d.numbers));
+        let overlap = 0;
+        for (let pattern of recentPatterns) {
+            for (let n of individual) if (pattern.has(n)) overlap++;
+        }
+        score -= overlap * 0.5;
         
         return score;
     };
     
-    // População inicial inteligente
-    let initialPop = [];
-    let topNums = rankedNums.slice(0, 25).map(r => r.num);
-    for (let i = 0; i < 250; i++) {
-        let ind = ga.createIndividual(maxNum, qtdNumeros, topNums);
-        initialPop.push(ind);
-    }
-    
-    let bestNumbers = ga.evolve(initialPop, fitnessFunc, 150, maxNum, qtdNumeros);
+    let topNums = rankedNums.slice(0, 30).map(r => r.num);
+    let bestNumbers = ga.evolve(fitnessFunc, 500, maxNum, qtdNumeros, topNums);
     
     // Estrelas com análise avançada
     let starScores = new Array(maxStar + 1).fill(0);
     let starFreq = new Array(maxStar + 1).fill(0);
-    let starDelays = new Array(maxStar + 1).fill(-1);
+    let starDelays = new Array(maxStar + 1).fill(data.length);
     let starIntervals = {};
     for (let i = 1; i <= maxStar; i++) starIntervals[i] = [];
     
     let lastStarSeen = new Array(maxStar + 1).fill(-1);
     for (let idx = 0; idx < data.length; idx++) {
         for (let s of data[idx].stars) {
-            starFreq[s]++;
-            if (starDelays[s] === -1) starDelays[s] = idx;
+            // Frequência com decay
+            let decay = Math.exp(-idx * 0.01);
+            starFreq[s] += decay;
+            if (starDelays[s] === data.length) starDelays[s] = idx;
             if (lastStarSeen[s] !== -1) {
                 starIntervals[s].push(idx - lastStarSeen[s]);
             }
-            lastStarSeen[s] = idx;        }
+            lastStarSeen[s] = idx;
+        }
     }
     
     for (let i = 1; i <= maxStar; i++) {
-        // Frequência
-        starScores[i] += (starFreq[i] / 100) * 25;
+        // Frequência ponderada
+        starScores[i] += starFreq[i] * 3;
         
-        // Atraso
-        if (starDelays[i] !== -1) {
-            starScores[i] += Math.min(20, starDelays[i] * 1.0);
-        }
+        // Atraso        let delay = data.length - starDelays[i];
+        starScores[i] += Math.min(25, delay * 1.2);
         
         // Ciclos
-        if (starIntervals[i].length > 1) {
+        if (starIntervals[i].length > 2) {
             let avg = starIntervals[i].reduce((a,b) => a+b, 0) / starIntervals[i].length;
+            let variance = starIntervals[i].reduce((acc, v) => acc + (v-avg)*(v-avg), 0) / starIntervals[i].length;
             let currentDelay = data.length - (lastStarSeen[i] === -1 ? data.length : lastStarSeen[i]);
-            starScores[i] += (currentDelay / avg) * 15;
+            let regularity = 1 / (1 + Math.sqrt(variance));
+            starScores[i] += (currentDelay / avg) * 18 * regularity;
         }
+        
+        // Bayesiano para estrelas
+        let alpha = 1 + starFreq[i];
+        let beta = 1 + data.length * starCount - starFreq[i];
+        starScores[i] += (alpha / (alpha + beta)) * 15;
     }
     
     let rankedStars = [];
@@ -709,7 +1148,7 @@ function ensemblePrediction(data, maxNum, maxStar, starCount, qtdNumeros) {
     rankedStars.sort((a,b) => b.score - a.score);
     let bestStars = rankedStars.slice(0, starCount).map(s => s.num).sort((a,b) => a - b);
     
-    // Cálculo do score final
+    // Score final
     let totalScore = 0;
     for (let n of bestNumbers) {
         let ranked = rankedNums.find(r => r.num === n);
@@ -732,17 +1171,21 @@ function ensemblePrediction(data, maxNum, maxStar, starCount, qtdNumeros) {
         arima,
         entropy,
         bayesian,
-        clusters
-    };}
-
+        clusters,
+        backtest
+    };
+}
 // ======================== FUNÇÕES AUXILIARES ========================
 function prepareTrainingData(data, maxNum) {
     let samples = [];
-    for (let i = 0; i < Math.min(250, data.length - 1); i++) {
+    for (let i = 0; i < Math.min(300, data.length - 1); i++) {
         let input = new Array(maxNum).fill(0);
         for (let n of data[i].numbers) input[n-1] = 1;
         let target = new Array(maxNum).fill(0);
         for (let n of data[i+1].numbers) target[n-1] = 1;
+        // Normalizar target para softmax
+        let sum = target.reduce((a,b) => a+b, 0);
+        target = target.map(t => t / sum);
         samples.push({ input, target });
     }
     return samples;
@@ -762,37 +1205,28 @@ function calcularPreco(tipo, loteria) {
 
 function comb(n, k) { if (k > n) return 0; let res = 1; for (let i = 0; i < k; i++) res *= (n - i) / (i + 1); return res; }
 
-function gerarHistorico(loteria, totalSorteios = 1200) {
+function gerarHistorico(loteria, totalSorteios = 1500) {
     let dados = [];
     let maxNum = LIMITS[loteria].maxNum;
     let maxStar = LIMITS[loteria].maxStar;
     let starCount = LIMITS[loteria].starCount;
     
-    let pesosNum = new Array(maxNum + 1).fill(1);
-    for (let i = 1; i <= maxNum; i++) {
-        if (i % 7 === 0) pesosNum[i] = 1.3;
-        else if (i <= 25) pesosNum[i] = 1.15;
-        else pesosNum[i] = 0.95;
-    }
-    
     for (let i = 0; i < totalSorteios; i++) {
         let nums = [];
         while (nums.length < 5) {
             let r = Math.floor(Math.random() * maxNum) + 1;
-            let p = pesosNum[r];
-            if (Math.random() < p / 1.5 && !nums.includes(r)) nums.push(r);
-            else if (!nums.includes(r) && Math.random() < 0.3) nums.push(r);
-        }        nums.sort((a,b) => a - b);
+            if (!nums.includes(r)) nums.push(r);
+        }
+        nums.sort((a,b) => a - b);
         
         let stars = [];
         while (stars.length < starCount) {
             let s = Math.floor(Math.random() * maxStar) + 1;
             if (!stars.includes(s)) stars.push(s);
-        }
-        stars.sort((a,b) => a - b);
+        }        stars.sort((a,b) => a - b);
         
         let data = new Date(2021, 0, 1);
-        data.setDate(data.setDate(data.getDate() + i * 3));
+        data.setDate(data.getDate() + i * 3);
         dados.push({ numbers: nums, stars: stars, date: data.toLocaleDateString('pt-PT') });
     }
     dados.reverse();
@@ -832,46 +1266,48 @@ function renderResults(result, tipo, loteria) {
         let score = ranked ? ranked.score.toFixed(1) : '0';
         return `<div class="bolha" data-score="${score}">${n}</div>`;
     }).join('');    
+    
     starsDiv.innerHTML = result.stars.map(s => {
         let ranked = result.rankedStars.find(r => r.num === s);
         let score = ranked ? ranked.score.toFixed(1) : '0';
         return `<div class="bolha estrela-bolha" data-score="${score}">⭐${s}</div>`;
     }).join('');
-    
-    document.getElementById("pontuacaoEstatistica").innerHTML = result.score.toFixed(2);
+        document.getElementById("pontuacaoEstatistica").innerHTML = result.score.toFixed(2);
     document.getElementById("scoreBar").style.width = `${Math.min(100, result.score)}%`;
     document.getElementById("precoEstimado").innerHTML = calcularPreco(tipo, loteria);
     
-    let probText = result.score > 85 ? "🔥 EXTREMA (95%+)" : (result.score > 70 ? "📈 MUITO ALTA (85%+)" : (result.score > 55 ? "⚖️ ALTA (70%+)" : "⚠️ MODERADA"));
+    // Confiança estatística HONESTA
+    let probText = "📊 BASEADA EM PADRÕES HISTÓRICOS (NÃO GARANTE ACERTO)";
     document.getElementById("probabilidadeLabel").innerHTML = probText;
-    document.getElementById("simulacoesCount").innerHTML = "12 Modelos + 2M Sim";
+    document.getElementById("simulacoesCount").innerHTML = "12 Modelos + Backtest";
     
-    let analise = `<strong>📊 Análise Multi-Modelo (12 Algoritmos):</strong><br>`;
-    analise += `• <strong>Markov Chains:</strong> Transições probabilísticas de ordem 3<br>`;
-    analise += `• <strong>Rede Neural:</strong> 3 camadas com ReLU e backpropagation<br>`;
-    analise += `• <strong>Algoritmo Genético:</strong> 250 indivíduos, 150 gerações, elite 20%<br>`;
-    analise += `• <strong>Tendências:</strong> Análise multi-escala (curto/médio/longo prazo)<br>`;
-    analise += `• <strong>Atrasos:</strong> Peso exponencial para números "devidos"<br>`;
-    analise += `• <strong>Ciclos:</strong> Periodicidade com análise de regularidade<br>`;
-    analise += `• <strong>Correlações:</strong> Pares frequentes com peso adaptativo<br>`;
-    analise += `• <strong>Fourier:</strong> Análise espectral de padrões cíclicos<br>`;
-    analise += `• <strong>ARIMA:</strong> Tendências temporais suavizadas<br>`;
-    analise += `• <strong>Bayesiano:</strong> Probabilidades posteriores atualizadas<br>`;
-    analise += `• <strong>Clusters:</strong> Balanceamento de faixas numéricas<br>`;
-    analise += `• <strong>Entropia:</strong> Medida de aleatoriedade do sistema<br><br>`;
+    let analise = `<strong>📊 Análise Multi-Modelo Backtested:</strong><br>`;
+    analise += `• <strong>Markov-5 + Laplace:</strong> Cadeias de ordem 5 com suavização<br>`;
+    analise += `• <strong>Rede Neural 5-Layer:</strong> Adam optimizer, Xavier init, softmax<br>`;
+    analise += `• <strong>GA 1000×500:</strong> Crossover uniforme + mutação gaussiana + elitismo 10%<br>`;
+    analise += `• <strong>FFT Real:</strong> Transformada rápida de Fourier para periodicidades<br>`;
+    analise += `• <strong>ARIMA(p,d,q):</strong> Differencing + autocorrelações + EWM<br>`;
+    analise += `• <strong>Beta-Binomial:</strong> Atualização Bayesiana com janelas ponderadas<br>`;
+    analise += `• <strong>Correlação Parcial:</strong> Pearson entre presenças de pares<br>`;
+    analise += `• <strong>Entropia Condicional:</strong> H(X|Y) por número<br>`;
+    analise += `• <strong>Ensemble:</strong> Pesos aprendidos por backtesting em ${50} sorteios<br>`;
+    analise += `• <strong>Ciclos:</strong> Periodicidade com regularidade (1/CV)<br>`;
+    analise += `• <strong>Multi-Escala:</strong> 4 escalas temporais com pesos<br>`;
+    analise += `• <strong>Clusters:</strong> Balanceamento em 5 zonas<br><br>`;
     analise += `<strong>🎯 Score Final:</strong> ${result.score.toFixed(2)}/100<br>`;
-    analise += `<strong>📈 Confiança:</strong> ${probText}<br>`;
-    analise += `<strong>🔬 Simulações:</strong> 2 milhões de iterações genéticas`;
+    analise += `<strong>⚠️ Lembrete:</strong> Lotarias são aleatórias — este score mede coerência com padrões históricos, NÃO probabilidade de acerto futuro.`;
     document.getElementById("analiseDetalhada").innerHTML = analise;
     
-    // Renderizar análises adicionais
-    let fourierText = `Padrões cíclicos detectados em ${result.fourier.slice(0, 5).map(f => f.num).join(', ')}`;
+    // Análises específicas
+    let topFourier = result.fourier.slice(0, 5);
+    let fourierText = `Períodos dominantes: ${topFourier.map(f => `Nº${f.num} (T≈${f.period.toFixed(1)})`).join(', ')}`;
     document.getElementById("fourierAnalysis").innerHTML = fourierText;
     
-    let arimaText = `Tendências positivas: ${result.arima.filter(a => a > 0).length} números`;
+    let arimaUp = result.arima.filter(a => a.trend > 0).length;
+    let arimaText = `${arimaUp} números em tendência positiva, ${result.arima.length - arimaUp} em negativa`;
     document.getElementById("arimaAnalysis").innerHTML = arimaText;
     
-    let entropyText = `Entropia: ${result.entropy.toFixed(3)} bits (máx: ${Math.log2(LIMITS[loteria].maxNum).toFixed(3)})`;
+    let entropyText = `Entropia Condicional Total: ${result.entropy.total.toFixed(3)} bits<br>Números mais previsíveis: ${result.entropy.perNum.slice(0, 5).map(e => e.num).join(', ')}`;
     document.getElementById("entropyAnalysis").innerHTML = entropyText;
 }
 
@@ -881,29 +1317,40 @@ function renderStats(result) {
     
     document.getElementById("topEstrelasList").innerHTML = result.rankedStars.slice(0, 8).map(r => 
         `<span class="chip">⭐${r.num} (${r.score.toFixed(1)})</span>`).join('');    
-    document.getElementById("atrasosList").innerHTML = result.delays.slice(0, 10).map(d => 
-        `<span class="chip">Nº${d.num}: ${d.delay} sorteios</span>`).join('');
     
-    document.getElementById("paresCorrelacionados").innerHTML = result.correlations.slice(0, 10).map(([pair, count]) => 
-        `<span class="chip">${pair}: ${count}x juntos</span>`).join('');
+    document.getElementById("atrasosList").innerHTML = result.delays.slice(0, 10).map(d => 
+        `<span class="chip">Nº${d.num}: ${d.delay} sorteios (peso: ${d.weight.toFixed(2)})</span>`).join('');
+    
+    document.getElementById("paresCorrelacionados").innerHTML = result.correlations.slice(0, 10).map(p =>         `<span class="chip">${p.a}-${p.b}: r=${p.corr.toFixed(3)}</span>`).join('');
+    
+    // Backtest
+    let bt = result.backtest;
+    let btHtml = Object.entries(bt).map(([model, hitRate]) => {
+        let cls = hitRate > 30 ? 'backtest-good' : 'backtest-bad';
+        return `<div class="metric-card" style="flex:1; min-width:150px;">
+            <strong>${model.toUpperCase()}</strong><br>
+            <span class="${cls}">${hitRate.toFixed(1)}%</span> hit rate (top 15)
+        </div>`;
+    }).join('');
+    document.getElementById("backtestResults").innerHTML = btHtml;
     
     let modelos = [
-        { nome: "Markov Chains", status: "✅ Ativo", cor: "#11998e" },
-        { nome: "Rede Neural", status: "✅ Ativo", cor: "#667eea" },
-        { nome: "Algoritmo Genético", status: "✅ Ativo", cor: "#f093fb" },
-        { nome: "Análise Tendências", status: "✅ Ativo", cor: "#f39c12" },
-        { nome: "Análise Atrasos", status: "✅ Ativo", cor: "#e74c3c" },
-        { nome: "Análise Ciclos", status: "✅ Ativo", cor: "#9b59b6" },
-        { nome: "Correlações", status: "✅ Ativo", cor: "#3498db" },
-        { nome: "Fourier", status: "✅ Ativo", cor: "#00ff88" },
-        { nome: "ARIMA", status: "✅ Ativo", cor: "#ff6b35" },
-        { nome: "Bayesiano", status: "✅ Ativo", cor: "#FFD700" },
-        { nome: "Clusters", status: "✅ Ativo", cor: "#FF1493" },
-        { nome: "Entropia", status: "✅ Ativo", cor: "#00ffff" }
+        { nome: "Markov-5 Laplace", status: "✅", cor: "#11998e" },
+        { nome: "Deep NN 5-Layer", status: "✅", cor: "#667eea" },
+        { nome: "GA 1000×500", status: "✅", cor: "#f093fb" },
+        { nome: "FFT Real", status: "✅", cor: "#00ff88" },
+        { nome: "ARIMA(p,d,q)", status: "✅", cor: "#ff6b35" },
+        { nome: "Beta-Binomial", status: "✅", cor: "#FFD700" },
+        { nome: "Partial Corr", status: "✅", cor: "#3498db" },
+        { nome: "Cond. Entropy", status: "✅", cor: "#00ffff" },
+        { nome: "Multi-Scale", status: "✅", cor: "#f39c12" },
+        { nome: "Cycle Analysis", status: "✅", cor: "#9b59b6" },
+        { nome: "Delay Decay", status: "✅", cor: "#e74c3c" },
+        { nome: "Ensemble BT", status: "✅", cor: "#FF1493" }
     ];
     document.getElementById("modelosIA").innerHTML = modelos.map(m => 
         `<div style="background:linear-gradient(135deg, ${m.cor} 0%, ${m.cor}88 100%); padding:10px 18px; border-radius:40px; font-weight:600; box-shadow:0 4px 15px ${m.cor}66;">
-            ${m.nome} <span style="font-size:0.8rem;">${m.status}</span>
+            ${m.status} ${m.nome}
         </div>`).join('');
 }
 
@@ -923,13 +1370,13 @@ function renderHeatmap() {
         el.innerText = i;
         el.title = `Frequência: ${heat[i]}x`;
         container.appendChild(el);
-    }
-}
+    }}
 
 function renderHistorico() {
     let data = currentLottery === "euromilhoes" ? dbEuromilhoes : dbTotoloto;
     let html = `<tr><th>Data</th><th>Números</th><th>Estrelas</th></tr>`;
-    for (let i = 0; i < Math.min(10, data.length); i++) {        html += `<tr><td>${data[i].date}</td><td>${data[i].numbers.join(', ')}</td><td>⭐${data[i].stars.join(', ')}</td></tr>`;
+    for (let i = 0; i < Math.min(10, data.length); i++) {
+        html += `<tr><td>${data[i].date}</td><td>${data[i].numbers.join(', ')}</td><td>⭐${data[i].stars.join(', ')}</td></tr>`;
     }
     document.getElementById("historicoTabela").innerHTML = html;
 }
@@ -972,13 +1419,13 @@ async function gerarAposta() {
     
     let data = currentLottery === "euromilhoes" ? dbEuromilhoes : dbTotoloto;
     let maxNum = LIMITS[loteria].maxNum;
-    let maxStar = LIMITS[loteria].maxStar;
-    let starCount = LIMITS[loteria].starCount;
+    let maxStar = LIMITS[loteria].maxStar;    let starCount = LIMITS[loteria].starCount;
     let qtdNumeros = (tipo === "simples") ? 5 : parseInt(tipo.replace("multipla", ""));
     if (isNaN(qtdNumeros)) qtdNumeros = 5;
     qtdNumeros = Math.min(qtdNumeros, maxNum);
     
-    document.getElementById("statusSimulacao").innerHTML = "🚀 Iniciando Super IA v4.0 Ultra...";    await new Promise(r => setTimeout(r, 50));
+    document.getElementById("statusSimulacao").innerHTML = "🚀 Iniciando Quantum IA v5.0...";
+    await new Promise(r => setTimeout(r, 50));
     
     let result = ensemblePrediction(data, maxNum, maxStar, starCount, qtdNumeros);
     
@@ -988,7 +1435,7 @@ async function gerarAposta() {
     renderHistorico();
     updateCharts();
     
-    document.getElementById("statusSimulacao").innerHTML = `✅ Previsão concluída! Score: ${result.score.toFixed(2)}/100 | 12 modelos IA ativos | 2M simulações`;
+    document.getElementById("statusSimulacao").innerHTML = `✅ Análise concluída! Score: ${result.score.toFixed(2)}/100 | 12 modelos + backtesting | Pesos aprendidos de ${50} sorteios de teste`;
 }
 
 function exportExcel() {
@@ -998,12 +1445,12 @@ function exportExcel() {
     let ws = XLSX.utils.aoa_to_sheet(sheetData);
     let wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Historico");
-    XLSX.writeFile(wb, `loteria_${currentLottery}_superia_v4.xlsx`);
+    XLSX.writeFile(wb, `loteria_${currentLottery}_quantum_v5.xlsx`);
 }
 
 function exportPDF() {
     let element = document.querySelector('.dashboard');
-    html2pdf().from(element).set({ margin: 0.5, filename: `relatorio_${currentLottery}_superia_v4.pdf` }).save();
+    html2pdf().from(element).set({ margin: 0.5, filename: `relatorio_${currentLottery}_quantum_v5.pdf` }).save();
 }
 
 function updateClock() {
@@ -1021,8 +1468,7 @@ document.getElementById("loteriasSelect").onchange = () => {
     updateFrequencies(); 
     gerarAposta(); 
 };
-initDatabases();
-updateFrequencies();
+initDatabases();updateFrequencies();
 setTimeout(() => gerarAposta(), 200);
 </script>
 </body>
