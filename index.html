@@ -3,304 +3,1991 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎯 Gerador de Apostas - Análise Estatística</title>
+<meta name="theme-color" content="#0a0c12">
+<title>🎯 LotoAnalytics Pro v5.1 - Análise Avançada de Lotarias</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTG90b0FuYWx5dGljcyBQcm8iLCJzaG9ydF9uYW1lIjoiTG90b1BybyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGEwYzEyIiwidGhlbWVfY29sb3IiOiIjMGEwYzEyIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnPjx0ZXh0IHk9Jy45ZW0nIGZvbnQtc2l6ZT0nOTAnPvCfjp88L3RleHQ+PC9zdmc+Iiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <style>
+:root {
+    --bg-primary: #0a0c12;
+    --bg-secondary: #1a1f2e;
+    --bg-card: rgba(21, 26, 36, 0.95);
+    --bg-input: #1e2a32;
+    --border-color: #2a3342;
+    --border-input: #3e4d5e;
+    --text-primary: #eef;
+    --text-secondary: #aaa;
+    --accent-gold: #FFD700;
+    --accent-orange: #FF6B35;
+    --accent-pink: #FF1493;
+    --accent-green: #00ff88;
+    --accent-blue: #667eea;
+    --accent-purple: #764ba2;
+    --success: #38ef7d;
+    --danger: #f5576c;
+    --warning: #f39c12;
+    --shadow: 0 8px 24px rgba(0,0,0,0.4);
+    --gradient-primary: linear-gradient(135deg, #FFD700, #FF6B35, #FF1493, #00ff88);
+    --gradient-button: linear-gradient(135deg, #667eea, #764ba2);
+    --gradient-success: linear-gradient(135deg, #11998e, #38ef7d);
+    --gradient-primary-btn: linear-gradient(135deg, #f093fb, #f5576c);
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0a0c12, #1a1f2e); color: #eef; min-height: 100vh; padding: 15px; }
-.container { max-width: 1200px; margin: 0 auto; }
-.card { background: rgba(21, 26, 36, 0.95); border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); border: 1px solid #2a3342; }
-h1 { font-size: 1.8rem; background: linear-gradient(135deg, #FFD700, #FF6B35); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
-h2, h3 { color: #ffd966; margin-bottom: 12px; border-left: 4px solid #ff6b35; padding-left: 10px; }
-button { background: linear-gradient(135deg, #667eea, #764ba2); border: none; padding: 12px 24px; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; }
-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.5); }
-button.primary { background: linear-gradient(135deg, #f093fb, #f5576c); }
-select { background: #1e2a32; border: 2px solid #3e4d5e; padding: 10px 15px; border-radius: 20px; color: white; font-weight: 600; margin-right: 10px; }
-.numeros { background: linear-gradient(135deg, #0f131c, #1a2332); border-radius: 40px; padding: 20px; margin: 15px 0; text-align: center; min-height: 80px; }
-.bola { display: inline-flex; width: 55px; height: 55px; background: linear-gradient(135deg, #11998e, #38ef7d); border-radius: 50%; align-items: center; justify-content: center; margin: 6px; font-weight: bold; font-size: 1.4rem; box-shadow: 0 4px 12px rgba(17,153,142,0.6); }
-.estrela { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.info { display: flex; flex-wrap: wrap; gap: 15px; margin: 15px 0; }
-.info-box { flex: 1; min-width: 200px; background: rgba(17,153,142,0.1); border: 1px solid #11998e; border-radius: 12px; padding: 12px; }
-.info-box h4 { color: #11998e; margin-bottom: 8px; font-size: 0.9rem; }
-.info-box .value { font-size: 1.1rem; font-weight: bold; color: #38ef7d; }
-.warning { background: rgba(255,107,53,0.15); border: 2px solid #ff6b35; border-radius: 12px; padding: 15px; margin: 15px 0; }
-.warning strong { color: #ff6b35; }
-table { width: 100%; border-collapse: collapse; background: #0b1018; border-radius: 12px; overflow: hidden; }
+body {
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 15px;
+    line-height: 1.5;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+header {
+    background: var(--bg-card);    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+h1 {
+    font-size: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+.subtitle { font-size: 0.9rem; color: var(--text-secondary); }
+.version-badge {
+    display: inline-block;
+    background: var(--gradient-button);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+.tab {
+    background: rgba(30, 42, 50, 0.8);
+    border: 1px solid var(--border-color);
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+.tab:hover { background: rgba(102, 126, 234, 0.3); transform: translateY(-1px); }
+.tab.active {
+    background: var(--gradient-button);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+}
+.card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+h2 {
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    border-left: 4px solid var(--accent-orange);
+    padding-left: 10px;
+    font-size: 1.3rem;
+}
+h3 { color: var(--accent-gold); margin: 15px 0 10px 0; font-size: 1.1rem; }
+.grid { display: grid; gap: 15px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.grid-5 { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+button {
+    background: var(--gradient-button);
+    border: none;
+    padding: 11px 22px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(102,126,234,0.5); }
+button.primary { background: var(--gradient-primary-btn); }
+button.success { background: var(--gradient-success); }
+button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+select, input[type="number"], input[type="text"] {
+    background: var(--bg-input);
+    border: 2px solid var(--border-input);
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+select:focus, input:focus { border-color: var(--accent-blue); outline: none; }
+label { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
+.numeros-area {
+    background: linear-gradient(135deg, #0f131c, #1a2332);
+    border-radius: 40px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: center;
+    min-height: 80px;
+    border: 2px solid var(--border-color);}
+.bola {
+    display: inline-flex;
+    width: 55px;
+    height: 55px;
+    background: var(--gradient-success);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(17,153,142,0.6);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.estrela {
+    background: var(--gradient-primary-btn);
+    box-shadow: 0 4px 12px rgba(245,87,108,0.6);
+}
+.stat-box {
+    background: linear-gradient(135deg, rgba(17,153,142,0.1), rgba(56,239,125,0.1));
+    border: 1px solid #11998e;
+    border-radius: 12px;
+    padding: 12px;
+}
+.stat-box h4 { color: #11998e; font-size: 0.85rem; margin-bottom: 6px; }
+.stat-box .value { font-size: 1.1rem; font-weight: bold; color: var(--success); }
+.chip {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    border-radius: 20px;
+    padding: 5px 12px;
+    display: inline-block;
+    margin: 3px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.hot { background: linear-gradient(135deg, #f5576c, #ff6b35); }
+.cold { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #0b1018;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px 0;
+}
 th, td { padding: 8px; text-align: center; border-bottom: 1px solid #2a3440; font-size: 0.85rem; }
-th { background: #1a2332; color: #ffd966; }
-.status { margin-top: 10px; font-size: 0.9rem; color: #aaa; }
+th { background: #1a2332; color: var(--accent-gold); }
+.warning {    background: rgba(255,107,53,0.15);
+    border: 2px solid var(--accent-orange);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+}
+.warning strong { color: var(--accent-orange); }
+.progress-container {
+    background: #232b37;
+    border-radius: 15px;
+    height: 25px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.progress-bar {
+    background: linear-gradient(90deg, #f39c12, #e74c3c, #9b59b6);
+    height: 100%;
+    transition: width 0.3s;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+.status { font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px; }
+.ok { color: var(--success); font-weight: bold; }
+.err { color: var(--danger); font-weight: bold; }
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .flex { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+canvas { max-width: 100%; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px; }
+.heat-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; padding: 8px; }
+.heat-cell {
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    transition: transform 0.2s;
+}
+.heat-cell:hover { transform: scale(1.15); z-index: 10; }
+textarea {
+    width: 100%;
+    background: #0b1018;
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
+    padding: 10px;    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    min-height: 200px;
+    resize: vertical;
+}
+.bet-input { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+.number-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--bg-input);
+    border: 2px solid var(--border-input);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+.number-btn:hover { background: var(--accent-blue); border-color: var(--accent-blue); }
+.number-btn.selected {
+    background: var(--gradient-success);
+    border-color: var(--success);
+    transform: scale(1.1);
+}
+.number-btn.star-btn.selected {
+    background: var(--gradient-primary-btn);
+    border-color: var(--danger);
+}
+.validation-msg {
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-weight: 600;
+}
+.validation-msg.valid { background: rgba(56,239,125,0.15); border: 1px solid var(--success); color: var(--success); }
+.validation-msg.invalid { background: rgba(245,87,108,0.15); border: 1px solid var(--danger); color: var(--danger); }
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    z-index: 9999;
+    animation: slideIn 0.3s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.toast.success { background: var(--gradient-success); }.toast.error { background: var(--gradient-primary-btn); }
+@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@media (max-width: 700px) {
+    .bola { width: 45px; height: 45px; font-size: 1.1rem; }
+    h1 { font-size: 1.5rem; }
+    .heat-grid { grid-template-columns: repeat(8, 1fr); }
+    .number-btn { width: 38px; height: 38px; font-size: 0.9rem; }
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="card">
-    <h1>🎯 Gerador de Apostas com Análise Estatística</h1>
+
+<header>
+    <h1>🎯 LotoAnalytics Pro <span class="version-badge">v5.1</span></h1>
+    <div class="subtitle">Sistema Profissional de Análise Estatística de Lotarias • PWA • IndexedDB • Web Workers</div>
     <div class="warning">
-        <strong>⚠️ AVISO IMPORTANTE:</strong> Lotarias são eventos aleatórios e independentes. <strong>Nenhum sistema pode prever resultados futuros.</strong> As probabilidades matemáticas são exatas e imutáveis. Esta ferramenta gera apostas com análise estatística de padrões históricos para fins educacionais. Jogue com responsabilidade.
+        <strong>⚠️ AVISO LEGAL:</strong> Lotarias são eventos aleatórios e independentes. <strong>Nenhum sistema pode prever resultados futuros.</strong> As probabilidades teóricas são exatas e imutáveis. Esta ferramenta realiza análise estatística descritiva para fins educacionais e de entretenimento. Jogue com responsabilidade.
+    </div>
+</header>
+
+<div class="tabs">
+    <div class="tab active" data-section="dashboard">📊 Dashboard</div>
+    <div class="tab" data-section="gerador">✨ Gerador</div>
+    <div class="tab" data-section="aposta">🎲 Aposta Manual</div>
+    <div class="tab" data-section="estatisticas">📈 Estatísticas</div>
+    <div class="tab" data-section="historico">📜 Histórico</div>
+    <div class="tab" data-section="montecarlo">🎯 Monte Carlo</div>
+    <div class="tab" data-section="relatorios">📑 Relatórios</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="section active" id="sec-dashboard">
+    <div class="card">
+        <h2>📊 Dashboard Principal</h2>
+        <div class="flex">
+            <select id="gameSelect">
+                <option value="euromilhoes">🎲 Euromilhões (5/50 + 2/12)</option>
+                <option value="totoloto">🎯 Totoloto (5/49 + 1/13)</option>
+            </select>
+            <button onclick="App.loadSampleData()" class="success">📥 Carregar 200 Sorteios</button>
+            <button onclick="document.getElementById('csvInput').click()">📂 Importar CSV/JSON</button>
+            <input type="file" id="csvInput" accept=".csv,.json" style="display:none" onchange="App.importFile(event)">
+            <button onclick="App.clearAllData()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);">🗑️ Limpar Dados</button>
+        </div>
+        <div id="dbStatus" class="status">⚠️ Base de dados vazia - carregue dados para começar</div>    </div>
+
+    <div class="grid grid-4">
+        <div class="stat-box"><h4>📊 Total Sorteios</h4><div class="value" id="stat-total">0</div></div>
+        <div class="stat-box"><h4>🎲 Entropia Shannon</h4><div class="value" id="stat-entropy">0</div></div>
+        <div class="stat-box"><h4>📈 Média Soma</h4><div class="value" id="stat-mean">0</div></div>
+        <div class="stat-box"><h4>📉 Desvio Padrão</h4><div class="value" id="stat-std">0</div></div>
+    </div>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <h3>🔥 Números Quentes (Top 10)</h3>
+            <div id="hotNumbers"></div>
+        </div>
+        <div class="card">
+            <h3>❄️ Números Frios (Top 10)</h3>
+            <div id="coldNumbers"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>📊 Distribuição de Frequências</h3>
+        <canvas id="freqChart" height="150"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>⏳ Análise de Atrasos</h3>
+        <canvas id="delayChart" height="150"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>🗺️ Mapa de Calor (Últimos 30 sorteios)</h3>
+        <div id="heatmap" class="heat-grid"></div>
     </div>
 </div>
 
-<div class="card">
-    <div class="flex">
-        <select id="loteria">
-            <option value="euromilhoes">Euromilhões (5/50 + 2/12)</option>
-            <option value="totoloto">Totoloto (5/49 + 1/13)</option>
-        </select>
-        <select id="tipo">
-            <option value="5">Simples (5 números)</option>            <option value="6">Múltipla 6 números</option>
-            <option value="7">Múltipla 7 números</option>
-            <option value="8">Múltipla 8 números</option>
-            <option value="9">Múltipla 9 números</option>
-            <option value="10">Múltipla 10 números</option>
-        </select>
-        <button id="gerar" class="primary">✨ Gerar Aposta</button>
+<!-- GERADOR -->
+<div class="section" id="sec-gerador">
+    <div class="card">
+        <h2>✨ Gerador Inteligente de Apostas</h2>
+        <div class="flex">
+            <label>Tipo:
+                <select id="betType">
+                    <option value="5">Simples (5 números)</option>
+                    <option value="6">Múltipla 6</option>
+                    <option value="7">Múltipla 7</option>
+                    <option value="8">Múltipla 8</option>
+                    <option value="9">Múltipla 9</option>
+                    <option value="10">Múltipla 10</option>
+                </select>            </label>
+            <label>Método:
+                <select id="genMethod">
+                    <option value="statistical">📊 Estatístico</option>
+                    <option value="random">🎲 Aleatório Puro</option>
+                    <option value="balanced">⚖️ Balanceado</option>
+                    <option value="genetic">🧬 Algoritmo Genético</option>
+                </select>
+            </label>
+            <button onclick="App.generateBet()" class="primary">✨ Gerar Aposta</button>
+        </div>
+        <h3>🎯 Números Gerados</h3>
+        <div id="genNumbers" class="numeros-area">Clique em "Gerar Aposta"</div>
+        <h3>⭐ Estrelas</h3>
+        <div id="genStars" class="numeros-area"></div>
+
+        <div class="grid grid-4">
+            <div class="stat-box"><h4>💰 Preço</h4><div class="value" id="genPrice">--</div></div>
+            <div class="stat-box"><h4>🎲 Combinações</h4><div class="value" id="genComb">--</div></div>
+            <div class="stat-box"><h4>📊 Score IA</h4><div class="value" id="genScore">--</div></div>
+            <div class="stat-box"><h4>🎯 Prob. Jackpot</h4><div class="value" id="genJackpot">--</div></div>
+        </div>
+
+        <h3>📋 Probabilidades Matemáticas Exatas</h3>
+        <div id="genProbs"></div>
     </div>
 </div>
 
-<div class="card">
-    <h2>🎯 Números Gerados</h2>
-    <div id="numeros" class="numeros">Clique em "Gerar Aposta"</div>
-    <h2>⭐ Estrelas</h2>
-    <div id="estrelas" class="numeros"></div>
-    
-    <div class="info">
-        <div class="info-box">
-            <h4>💰 Preço Estimado</h4>
-            <div class="value" id="preco">--</div>
+<!-- APOSTA MANUAL -->
+<div class="section" id="sec-aposta">
+    <div class="card">
+        <h2>🎲 Aposta Manual com Validação</h2>
+        <div class="flex">
+            <label>Jogo:
+                <select id="manualGame">
+                    <option value="euromilhoes">Euromilhões</option>
+                    <option value="totoloto">Totoloto</option>
+                </select>
+            </label>
         </div>
-        <div class="info-box">
-            <h4>🎲 Combinações</h4>
-            <div class="value" id="comb">--</div>
+
+        <h3>Selecione 5-10 números (1-<span id="maxNumLabel">50</span>):</h3>
+        <div id="numberGrid" class="bet-input"></div>
+
+        <h3>Selecione <span id="maxStarLabel">2</span> estrela(s) (1-<span id="maxStarRange">12</span>):</h3>
+        <div id="starGrid" class="bet-input"></div>
+
+        <div id="validationMsg"></div>
+
+        <div class="grid grid-3">            <div class="stat-box"><h4>💰 Preço</h4><div class="value" id="manualPrice">0,00 €</div></div>
+            <div class="stat-box"><h4>🎲 Combinações</h4><div class="value" id="manualComb">1</div></div>
+            <div class="stat-box"><h4>📊 Soma</h4><div class="value" id="manualSum">0</div></div>
         </div>
-        <div class="info-box">
-            <h4>📊 Probabilidade 5+⭐</h4>
-            <div class="value" id="prob">--</div>
+
+        <div class="flex" style="margin-top:15px;">
+            <button onclick="App.saveManualBet()" class="success">💾 Guardar Aposta</button>
+            <button onclick="App.clearManualBet()">🗑️ Limpar</button>
         </div>
     </div>
 </div>
 
-<div class="card">
-    <h2>📋 Probabilidades Matemáticas Exatas</h2>
-    <div id="probTable"></div>
+<!-- ESTATÍSTICAS -->
+<div class="section" id="sec-estatisticas">
+    <div class="card">
+        <h2>📈 Estatísticas Avançadas</h2>
+        <button onclick="App.recalculateStats()" class="primary">🔄 Recalcular</button>
+
+        <div class="grid grid-5" style="margin-top:15px;">
+            <div class="stat-box"><h4>🔢 Par/Ímpar</h4><div class="value" id="stat-parity">-</div></div>
+            <div class="stat-box"><h4>📏 Min Soma</h4><div class="value" id="stat-minsum">-</div></div>
+            <div class="stat-box"><h4>📏 Max Soma</h4><div class="value" id="stat-maxsum">-</div></div>
+            <div class="stat-box"><h4>🎯 Mediana</h4><div class="value" id="stat-median">-</div></div>
+            <div class="stat-box"><h4>📊 Variação</h4><div class="value" id="stat-var">-</div></div>
+        </div>
+
+        <h3>🔗 Pares Mais Correlacionados</h3>
+        <div id="correlations"></div>
+
+        <h3>📊 Distribuição por Zonas</h3>
+        <canvas id="distributionChart" height="150"></canvas>
+
+        <h3>📈 Evolução da Soma</h3>
+        <canvas id="sumChart" height="150"></canvas>
+    </div>
 </div>
 
-<div class="card">
-    <h2>📊 Análise Estatística (Histórico)</h2>
-    <div class="info">
-        <div class="info-box">
-            <h4>🔥 Números Mais Frequentes</h4>
-            <div class="value" id="freq"></div>
+<!-- HISTÓRICO -->
+<div class="section" id="sec-historico">
+    <div class="card">
+        <h2>📜 Histórico de Sorteios</h2>
+        <div class="flex">
+            <button onclick="App.exportCSV()">💾 Exportar CSV</button>
+            <button onclick="App.exportJSON()">💾 Exportar JSON</button>
         </div>
-        <div class="info-box">
-            <h4>⏳ Números em Atraso</h4>
-            <div class="value" id="atraso"></div>
-        </div>
-        <div class="info-box">
-            <h4>🔗 Pares Correlacionados</h4>            <div class="value" id="pares"></div>
+        <div style="max-height:500px; overflow-y:auto; margin-top:15px;">
+            <table id="historyTable">
+                <tr><td>Carregue dados para ver o histórico</td></tr>
+            </table>
+        </div>    </div>
+
+    <div class="card">
+        <h2>💾 Apostas Guardadas</h2>
+        <div style="max-height:400px; overflow-y:auto;">
+            <table id="savedBetsTable">
+                <tr><td>Nenhuma aposta guardada</td></tr>
+            </table>
         </div>
     </div>
-    <div class="status" id="status"></div>
 </div>
+
+<!-- MONTE CARLO -->
+<div class="section" id="sec-montecarlo">
+    <div class="card">
+        <h2>🎯 Simulação Monte Carlo (Web Worker)</h2>
+        <div class="flex">
+            <label>Simulações:
+                <select id="mcSims">
+                    <option value="100000">100.000</option>
+                    <option value="500000">500.000</option>
+                    <option value="1000000" selected>1.000.000</option>
+                    <option value="5000000">5.000.000</option>
+                    <option value="10000000">10.000.000</option>
+                </select>
+            </label>
+            <button onclick="App.runMonteCarlo()" class="primary">🎲 Executar</button>
+            <button onclick="App.stopMonteCarlo()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);">⏹️ Parar</button>
+        </div>
+        <div class="progress-container" style="margin-top:15px;">
+            <div class="progress-bar" id="mcProgress" style="width:0%">0%</div>
+        </div>
+        <div class="status" id="mcStatus">Pronto</div>
+        <canvas id="mcChart" height="150" style="margin-top:15px;"></canvas>
+        <div id="mcResults"></div>
+    </div>
+</div>
+
+<!-- RELATÓRIOS -->
+<div class="section" id="sec-relatorios">
+    <div class="card">
+        <h2>📑 Relatórios e Exportação</h2>
+        <div class="flex">
+            <button onclick="App.generateReport()" class="primary">📊 Gerar Relatório</button>
+            <button onclick="App.exportPDF()">📄 PDF</button>
+            <button onclick="App.exportExcel()">📊 Excel</button>
+            <button onclick="App.exportCSV()">💾 CSV</button>
+        </div>
+        <h3>Relatório</h3>
+        <textarea id="reportText" readonly>Clique em "Gerar Relatório"</textarea>    </div>
+</div>
+
 </div>
 
 <script>
-// Constantes
-const CONFIG = {
-    euromilhoes: { maxNum: 50, maxStar: 12, starCount: 2, preco: 2.50 },
-    totoloto: { maxNum: 49, maxStar: 13, starCount: 1, preco: 1.00 }
+/* ============================================================
+   CONFIG - Configuração dos Jogos
+   ============================================================ */
+const GAMES = {
+    euromilhoes: {
+        name: "Euromilhões",
+        maxNumbers: 50,
+        drawNumbers: 5,
+        maxStars: 12,
+        drawStars: 2,
+        price: 2.50,
+        multiPrices: {5:2.50, 6:15, 7:52.5, 8:140, 9:315, 10:630}
+    },
+    totoloto: {
+        name: "Totoloto",
+        maxNumbers: 49,
+        drawNumbers: 5,
+        maxStars: 13,
+        drawStars: 1,
+        price: 1.00,
+        multiPrices: {5:1.00, 6:6, 7:21, 8:56, 9:126, 10:252}
+    }
 };
 
-// Cálculo de combinações C(n,k)
-function comb(n, k) {
-    if (k > n) return 0;
-    if (k === 0 || k === n) return 1;
-    let res = 1;
-    for (let i = 0; i < k; i++) {
-        res = res * (n - i) / (i + 1);
+/* ============================================================
+   UTILS - Notificações Toast
+   ============================================================ */
+const UI = {
+    toast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'slideIn 0.3s reverse';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
-    return Math.round(res);
-}
+};
 
-// Gerar números aleatórios únicos
-function gerarNumeros(max, count) {
-    const nums = new Set();
-    while (nums.size < count) {
-        nums.add(Math.floor(Math.random() * max) + 1);
+/* ============================================================
+   VALIDATOR - Validação de Apostas
+   ============================================================ */
+const Validator = {    validateBet(numbers, stars, game) {
+        const cfg = GAMES[game];
+        const errors = [];
+        
+        if (!Array.isArray(numbers) || !Array.isArray(stars)) {
+            return { valid: false, errors: ['Dados inválidos'] };
+        }
+        if (numbers.length < 5) errors.push("Mínimo 5 números");
+        if (numbers.length > 10) errors.push("Máximo 10 números");
+        if (new Set(numbers).size !== numbers.length) errors.push("Números duplicados");
+        if (numbers.some(n => !Number.isInteger(n) || n < 1 || n > cfg.maxNumbers)) {
+            errors.push(`Números fora do rango (1-${cfg.maxNumbers})`);
+        }
+        if (stars.length !== cfg.drawStars) errors.push(`Necessário ${cfg.drawStars} estrela(s)`);
+        if (new Set(stars).size !== stars.length) errors.push("Estrelas duplicadas");
+        if (stars.some(s => !Number.isInteger(s) || s < 1 || s > cfg.maxStars)) {
+            errors.push(`Estrelas fora do rango (1-${cfg.maxStars})`);
+        }
+        
+        return { valid: errors.length === 0, errors };
     }
-    return Array.from(nums).sort((a, b) => a - b);
-}
+};
 
-// Calcular probabilidades exatas
-function calcularProbabilidades(loteria, qtdNums) {
-    const cfg = CONFIG[loteria];
-    const probs = [];
+/* ============================================================
+   MATH - Combinações e Probabilidades
+   ============================================================ */
+const MathUtils = {
+    combination(n, k) {
+        if (k < 0 || k > n) return 0;
+        if (k === 0 || k === n) return 1;
+        if (k > n - k) k = n - k; // otimização
+        let result = 1;
+        for (let i = 0; i < k; i++) {
+            result = result * (n - i) / (i + 1);
+        }
+        return Math.round(result);
+    },
     
-    for (let k = qtdNums; k >= 0; k--) {
-        for (let j = cfg.starCount; j >= 0; j--) {
-            if (k === 0 && j === 0) continue;
+    jackpotOdds(game) {
+        const cfg = GAMES[game];
+        return this.combination(cfg.maxNumbers, cfg.drawNumbers) * 
+               this.combination(cfg.maxStars, cfg.drawStars);
+    },
+    
+    totalTickets(numCount) {
+        return this.combination(numCount, 5);
+    },
+    
+    secureRandom(max) {
+        const arr = new Uint32Array(1);        crypto.getRandomValues(arr);
+        // Rejeição para evitar viés de módulo (viés desprezível para max <= 50)
+        return (arr[0] % max) + 1;
+    },
+    
+    generateUnique(max, count) {
+        if (count > max) throw new Error('count não pode ser maior que max');
+        const set = new Set();
+        let attempts = 0;
+        while (set.size < count && attempts < count * 100) {
+            set.add(this.secureRandom(max));
+            attempts++;
+        }
+        if (set.size < count) {
+            // Fallback: seleção direta
+            const available = [];
+            for (let i = 1; i <= max; i++) if (!set.has(i)) available.push(i);
+            while (set.size < count && available.length > 0) {
+                const idx = Math.floor(Math.random() * available.length);
+                set.add(available[idx]);
+                available.splice(idx, 1);
+            }
+        }
+        return Array.from(set).sort((a,b) => a-b);
+    },
+    
+    calculateProbabilities(game, numCount) {
+        const cfg = GAMES[game];
+        const probs = [];
+        const totalNum = this.combination(cfg.maxNumbers, cfg.drawNumbers);
+        const totalStar = this.combination(cfg.maxStars, cfg.drawStars);
+        
+        if (totalNum === 0 || totalStar === 0) return [];
+        
+        const maxK = Math.min(numCount, cfg.drawNumbers);
+        
+        for (let k = maxK; k >= 0; k--) {
+            for (let j = cfg.drawStars; j >= 0; j--) {
+                if (k === 0 && j === 0) continue;
+                const waysNum = this.combination(numCount, k) * 
+                               this.combination(cfg.maxNumbers - numCount, cfg.drawNumbers - k);
+                const waysStar = this.combination(cfg.drawStars, j) * 
+                                this.combination(cfg.maxStars - cfg.drawStars, cfg.drawStars - j);
+                const prob = (waysNum / totalNum) * (waysStar / totalStar);
+                if (prob > 0 && isFinite(prob)) {
+                    let cat = `${k}N+${j}⭐`;
+                    if (game === 'euromilhoes') {
+                        if (k===5&&j===2) cat += ' 🏆 JACKPOT';
+                        else if (k===5&&j===1) cat += ' 2º';
+                        else if (k===5&&j===0) cat += ' 3º';                        else if (k===4&&j===2) cat += ' 4º';
+                        else if (k===4&&j===1) cat += ' 5º';
+                        else if (k===3&&j===2) cat += ' 6º';
+                    } else {
+                        if (k===5&&j===1) cat += ' 🏆 JACKPOT';
+                        else if (k===5&&j===0) cat += ' 2º';
+                        else if (k===4&&j===1) cat += ' 3º';
+                    }
+                    probs.push({ cat, prob, odds: Math.round(1/prob) });
+                }
+            }
+        }
+        return probs.sort((a,b) => a.odds - b.odds);
+    }
+};
+
+/* ============================================================
+   STATISTICS - Análise Estatística
+   ============================================================ */
+const Statistics = {
+    analyze(draws, game) {
+        const cfg = GAMES[game];
+        const freqNum = new Array(cfg.maxNumbers + 1).fill(0);
+        const freqStar = new Array(cfg.maxStars + 1).fill(0);
+        const lastSeenNum = new Array(cfg.maxNumbers + 1).fill(draws.length);
+        const lastSeenStar = new Array(cfg.maxStars + 1).fill(draws.length);
+        const sums = [];
+        
+        for (let i = 0; i < draws.length; i++) {
+            const d = draws[i];
+            if (!d.numbers || !d.stars) continue;
+            for (const n of d.numbers) {
+                if (n >= 1 && n <= cfg.maxNumbers) {
+                    freqNum[n]++;
+                    if (lastSeenNum[n] === draws.length) lastSeenNum[n] = i;
+                }
+            }
+            for (const s of d.stars) {
+                if (s >= 1 && s <= cfg.maxStars) {
+                    freqStar[s]++;
+                    if (lastSeenStar[s] === draws.length) lastSeenStar[s] = i;
+                }
+            }
+            sums.push(d.numbers.reduce((a,b) => a+b, 0));
+        }
+        
+        // Entropia de Shannon
+        const total = freqNum.slice(1).reduce((a,b) => a+b, 0);
+        let entropy = 0;
+        if (total > 0) {            for (let i = 1; i <= cfg.maxNumbers; i++) {
+                if (freqNum[i] > 0) {
+                    const p = freqNum[i] / total;
+                    entropy -= p * Math.log2(p);
+                }
+            }
+        }
+        
+        // Estatísticas descritivas
+        const mean = sums.length > 0 ? sums.reduce((a,b) => a+b, 0) / sums.length : 0;
+        const variance = sums.length > 0 ? 
+            sums.reduce((acc, s) => acc + (s - mean) ** 2, 0) / sums.length : 0;
+        const std = Math.sqrt(variance);
+        const sorted = [...sums].sort((a,b) => a-b);
+        const median = sorted.length === 0 ? 0 :
+            sorted.length % 2 === 0 ? 
+            (sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2 : 
+            sorted[Math.floor(sorted.length/2)];
+        
+        // Rankings
+        const ranked = [];
+        for (let i = 1; i <= cfg.maxNumbers; i++) {
+            ranked.push({ num: i, freq: freqNum[i], delay: lastSeenNum[i] });
+        }
+        const hot = [...ranked].sort((a,b) => b.freq - a.freq).slice(0, 10);
+        const cold = [...ranked].sort((a,b) => a.freq - b.freq).slice(0, 10);
+        const delayed = [...ranked].sort((a,b) => b.delay - a.delay).slice(0, 10);
+        
+        // Correlações de pares
+        const pairs = {};
+        for (const d of draws.slice(0, 100)) {
+            if (!d.numbers) continue;
+            for (let i = 0; i < d.numbers.length; i++) {
+                for (let j = i+1; j < d.numbers.length; j++) {
+                    const key = d.numbers[i] + '-' + d.numbers[j];
+                    pairs[key] = (pairs[key] || 0) + 1;
+                }
+            }
+        }
+        const correlations = Object.entries(pairs).sort((a,b) => b[1] - a[1]).slice(0, 15);
+        
+        // Par/Ímpar
+        let totalPares = 0, totalImpares = 0;
+        for (const d of draws) {
+            if (!d.numbers) continue;
+            totalPares += d.numbers.filter(n => n%2===0).length;
+            totalImpares += d.numbers.filter(n => n%2!==0).length;
+        }
+        
+        return {            freqNum, freqStar, lastSeenNum, lastSeenStar,
+            entropy, mean, std, variance, median,
+            hot, cold, delayed, correlations,
+            minSum: sums.length > 0 ? Math.min(...sums) : 0,
+            maxSum: sums.length > 0 ? Math.max(...sums) : 0,
+            parity: `${totalPares}/${totalImpares}`
+        };
+    }
+};
+
+/* ============================================================
+   STORAGE - IndexedDB
+   ============================================================ */
+const Storage = {
+    db: null,
+    
+    async init() {
+        return new Promise((resolve, reject) => {
+            try {
+                const req = indexedDB.open("LotoAnalytics", 2);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('draws')) {
+                        const store = db.createObjectStore('draws', { keyPath: 'id', autoIncrement: true });
+                        store.createIndex('game', 'game', { unique: false });
+                        store.createIndex('date', 'date', { unique: false });
+                    }
+                    if (!db.objectStoreNames.contains('bets')) {
+                        db.createObjectStore('bets', { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+                req.onsuccess = (e) => { this.db = e.target.result; resolve(); };
+                req.onerror = (e) => reject(e.target.error);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+    
+    async saveDraws(draws) {
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = this.db.transaction('draws', 'readwrite');
+                const store = tx.objectStore('draws');
+                store.clear();
+                draws.forEach(d => store.add(d));
+                tx.oncomplete = () => resolve();
+                tx.onerror = (e) => reject(e.target.error);
+            } catch (err) {
+                reject(err);            }
+        });
+    },
+    
+    async getDraws(game) {
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = this.db.transaction('draws', 'readonly');
+                const store = tx.objectStore('draws');
+                const idx = store.index('game');
+                const req = idx.getAll(game);
+                req.onsuccess = () => resolve(req.result.sort((a,b) => b.id - a.id));
+                req.onerror = (e) => reject(e.target.error);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+    
+    async clearDraws(game) {
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = this.db.transaction('draws', 'readwrite');
+                const store = tx.objectStore('draws');
+                const idx = store.index('game');
+                const req = idx.openCursor(IDBKeyRange.only(game));
+                req.onsuccess = (e) => {
+                    const cursor = e.target.result;
+                    if (cursor) {
+                        cursor.delete();
+                        cursor.continue();
+                    } else {
+                        resolve();
+                    }
+                };
+                req.onerror = (e) => reject(e.target.error);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+    
+    async saveBet(bet) {
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = this.db.transaction('bets', 'readwrite');
+                tx.objectStore('bets').add(bet);
+                tx.oncomplete = () => resolve();
+                tx.onerror = (e) => reject(e.target.error);
+            } catch (err) {                reject(err);
+            }
+        });
+    },
+    
+    async getBets() {
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = this.db.transaction('bets', 'readonly');
+                const req = tx.objectStore('bets').getAll();
+                req.onsuccess = () => resolve(req.result.sort((a,b) => b.id - a.id));
+                req.onerror = (e) => reject(e.target.error);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+};
+
+/* ============================================================
+   GENERATOR - Gerador de Apostas
+   ============================================================ */
+const Generator = {
+    statistical(game, count, stats) {
+        const cfg = GAMES[game];
+        const scores = new Array(cfg.maxNumbers + 1).fill(0);
+        const maxFreq = Math.max(...stats.freqNum.slice(1)) || 1;
+        
+        for (let i = 1; i <= cfg.maxNumbers; i++) {
+            scores[i] += (stats.freqNum[i] / maxFreq) * 40;
+            scores[i] += Math.min(30, stats.lastSeenNum[i] * 0.8);
+        }
+        
+        const ranked = scores.map((s,i) => ({num:i, score:s}))
+            .filter(x => x.num > 0)
+            .sort((a,b) => b.score - a.score);
+        
+        return this._selectWithDiversity(ranked, count, cfg.maxNumbers);
+    },
+    
+    random(game, count) {
+        return MathUtils.generateUnique(GAMES[game].maxNumbers, count);
+    },
+    
+    balanced(game, count, stats) {
+        const cfg = GAMES[game];
+        const zoneSize = cfg.maxNumbers / 5;
+        const perZone = Math.ceil(count / 5);
+        const selected = [];
+                for (let z = 0; z < 5 && selected.length < count; z++) {
+            const zoneStart = Math.floor(z * zoneSize) + 1;
+            const zoneEnd = Math.min(Math.floor((z+1) * zoneSize), cfg.maxNumbers);
+            const zoneNums = [];
+            for (let n = zoneStart; n <= zoneEnd; n++) {
+                zoneNums.push({ num: n, freq: stats.freqNum[n] || 0 });
+            }
+            zoneNums.sort((a,b) => b.freq - a.freq);
+            for (let i = 0; i < perZone && selected.length < count && i < zoneNums.length; i++) {
+                if (!selected.includes(zoneNums[i].num)) {
+                    selected.push(zoneNums[i].num);
+                }
+            }
+        }
+        
+        let attempts = 0;
+        while (selected.length < count && attempts < 100) {
+            const n = MathUtils.secureRandom(cfg.maxNumbers);
+            if (!selected.includes(n)) selected.push(n);
+            attempts++;
+        }
+        
+        return selected.slice(0, count).sort((a,b) => a-b);
+    },
+    
+    genetic(game, count, stats) {
+        const cfg = GAMES[game];
+        const popSize = 200;
+        const generations = 100;
+        const mediaSoma = (cfg.maxNumbers * (count + 1)) / 2;
+        const maxFreq = Math.max(...stats.freqNum.slice(1)) || 1;
+        
+        const fitness = (ind) => {
+            const pares = ind.filter(n => n%2===0).length;
+            const eqPI = 1 - Math.abs(pares - count/2) / (count/2);
+            const sum = ind.reduce((a,b) => a+b, 0);
+            const somaIdeal = 1 - Math.abs(sum - mediaSoma) / mediaSoma;
+            const cobertura = ind.reduce((acc, n) => acc + (stats.freqNum[n] || 0)/maxFreq, 0) / count;
+            return eqPI * 30 + somaIdeal * 40 + cobertura * 30;
+        };
+        
+        let pop = [];
+        for (let i = 0; i < popSize; i++) {
+            pop.push(MathUtils.generateUnique(cfg.maxNumbers, count));
+        }
+        
+        let best = pop[0];
+        let bestFit = -Infinity;
+        
+        for (let gen = 0; gen < generations; gen++) {            const scored = pop.map(ind => ({ind, fit: fitness(ind)}));
+            scored.sort((a,b) => b.fit - a.fit);
+            if (scored[0].fit > bestFit) {
+                bestFit = scored[0].fit;
+                best = [...scored[0].ind];
+            }
             
-            const waysNum = comb(qtdNums, k) * comb(cfg.maxNum - qtdNums, 5 - k);
-            const totalNum = comb(cfg.maxNum, 5);
+            const eliteSize = Math.max(2, Math.floor(popSize*0.1));
+            const elite = scored.slice(0, eliteSize).map(s => [...s.ind]);
+            const newPop = [...elite];
             
-            const waysStar = comb(cfg.starCount, j) * comb(cfg.maxStar - cfg.starCount, cfg.starCount - j);
-            const totalStar = comb(cfg.maxStar, cfg.starCount);
+            while (newPop.length < popSize) {
+                const p1 = elite[Math.floor(Math.random() * elite.length)];
+                const p2 = elite[Math.floor(Math.random() * elite.length)];
+                const pool = [...new Set([...p1, ...p2])];
+                const child = new Set();
+                while (child.size < count && pool.length > 0) {
+                    const idx = Math.floor(Math.random() * pool.length);
+                    child.add(pool[idx]);
+                    pool.splice(idx, 1);
+                }
+                let attempts = 0;
+                while (child.size < count && attempts < 100) {
+                    child.add(MathUtils.secureRandom(cfg.maxNumbers));
+                    attempts++;
+                }
+                newPop.push(Array.from(child).sort((a,b) => a-b));
+            }
+            pop = newPop;
+        }
+        
+        return best;
+    },
+    
+    _selectWithDiversity(ranked, count, maxNum) {
+        const zoneSize = maxNum / 5;
+        const zones = [[],[],[],[],[]];
+        for (const item of ranked) {
+            const z = Math.min(4, Math.floor((item.num-1) / zoneSize));
+            zones[z].push(item);
+        }
+        
+        const selected = [];
+        const perZone = Math.ceil(count / 5);
+        for (let z = 0; z < 5 && selected.length < count; z++) {
+            for (let i = 0; i < perZone && selected.length < count && i < zones[z].length; i++) {
+                if (!selected.includes(zones[z][i].num)) selected.push(zones[z][i].num);
+            }
+        }
+                let attempts = 0;
+        while (selected.length < count && attempts < ranked.length) {
+            if (!selected.includes(ranked[attempts].num)) {
+                selected.push(ranked[attempts].num);
+            }
+            attempts++;
+        }
+        
+        return selected.slice(0, count).sort((a,b) => a-b);
+    },
+    
+    generateStars(game, stats) {
+        const cfg = GAMES[game];
+        const scores = new Array(cfg.maxStars + 1).fill(0);
+        const maxFreq = Math.max(...stats.freqStar.slice(1)) || 1;
+        
+        for (let i = 1; i <= cfg.maxStars; i++) {
+            scores[i] = ((stats.freqStar[i] || 0) / maxFreq) * 50 + 
+                        Math.min(50, (stats.lastSeenStar[i] || 0) * 1.5);
+        }
+        
+        return scores.map((s,i) => ({num:i, score:s}))
+            .filter(x => x.num > 0)
+            .sort((a,b) => b.score - a.score)
+            .slice(0, cfg.drawStars)
+            .map(s => s.num)
+            .sort((a,b) => a-b);
+    }
+};
+
+/* ============================================================
+   CHARTS - Gráficos
+   ============================================================ */
+const Charts = {
+    instances: {},
+    
+    destroy(id) {
+        if (this.instances[id]) {
+            try { this.instances[id].destroy(); } catch(e) {}
+            delete this.instances[id];
+        }
+    },
+    
+    destroyAll() {
+        Object.keys(this.instances).forEach(id => this.destroy(id));
+    },
+    
+    frequency(data, maxNum) {
+        this.destroy('freqChart');
+        const canvas = document.getElementById('freqChart');        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const labels = [], values = [];
+        const step = Math.max(1, Math.floor(maxNum / 25));
+        for (let i = 1; i <= maxNum; i += step) {
+            labels.push(i);
+            values.push(data[i] || 0);
+        }
+        this.instances['freqChart'] = new Chart(ctx, {
+            type: 'bar',
+            data: { labels, datasets: [{ 
+                label: 'Frequência', data: values, 
+                backgroundColor: 'rgba(243,156,18,0.7)',
+                borderColor: '#f39c12', borderWidth: 2
+            }]},
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    },
+    
+    delay(draws, maxNum) {
+        this.destroy('delayChart');
+        const canvas = document.getElementById('delayChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const lastSeen = new Array(maxNum + 1).fill(draws.length);
+        for (let i = 0; i < draws.length; i++) {
+            if (!draws[i].numbers) continue;
+            for (const n of draws[i].numbers) {
+                if (lastSeen[n] === draws.length) lastSeen[n] = i;
+            }
+        }
+        const labels = [], values = [];
+        for (let i = 1; i <= maxNum; i++) {
+            labels.push(i);
+            values.push(lastSeen[i]);
+        }
+        this.instances['delayChart'] = new Chart(ctx, {
+            type: 'bar',
+            data: { labels, datasets: [{
+                label: 'Atraso (sorteios)', data: values,
+                backgroundColor: 'rgba(102,126,234,0.7)',
+                borderColor: '#667eea', borderWidth: 2
+            }]},
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    },
+    
+    distribution(draws, maxNum) {
+        this.destroy('distributionChart');
+        const canvas = document.getElementById('distributionChart');        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const zones = [0,0,0,0,0];
+        const zoneSize = maxNum / 5;
+        for (const d of draws) {
+            if (!d.numbers) continue;
+            for (const n of d.numbers) {
+                zones[Math.min(4, Math.floor((n-1)/zoneSize))]++;
+            }
+        }
+        this.instances['distributionChart'] = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Zona 1 (1-10)', 'Zona 2 (11-20)', 'Zona 3 (21-30)', 'Zona 4 (31-40)', 'Zona 5 (41-50)'],
+                datasets: [{ data: zones, backgroundColor: [
+                    '#f5576c', '#f093fb', '#667eea', '#11998e', '#f39c12'
+                ]}]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    },
+    
+    sumEvolution(draws) {
+        this.destroy('sumChart');
+        const canvas = document.getElementById('sumChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const sums = draws.filter(d => d.numbers).map(d => d.numbers.reduce((a,b) => a+b, 0)).reverse();
+        if (sums.length === 0) return;
+        this.instances['sumChart'] = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sums.map((_, i) => i+1),
+                datasets: [{
+                    label: 'Soma', data: sums,
+                    borderColor: '#38ef7d',
+                    backgroundColor: 'rgba(56,239,125,0.1)',
+                    tension: 0.3, fill: true
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    },
+    
+    monteCarlo(probs) {
+        this.destroy('mcChart');
+        const canvas = document.getElementById('mcChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        this.instances['mcChart'] = new Chart(ctx, {            type: 'bar',
+            data: {
+                labels: ['0 acertos', '1 acerto', '2 acertos', '3 acertos', '4 acertos', '5 acertos'],
+                datasets: [{
+                    label: 'Empírico (%)', data: probs.map(p => p*100),
+                    backgroundColor: 'rgba(56,239,125,0.7)',
+                    borderColor: '#38ef7d',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    }
+};
+
+/* ============================================================
+   WORKER - Código do Web Worker
+   ============================================================ */
+const WorkerCode = `
+self.onmessage = function(e) {
+    const { total, maxNum, maxStar, drawNum, drawStar } = e.data;
+    const hits = new Array(6).fill(0);
+    const chunkSize = 50000;
+    let processed = 0;
+    let stopped = false;
+    
+    const targetNum = new Set();
+    while (targetNum.size < drawNum) targetNum.add(Math.floor(Math.random() * maxNum) + 1);
+    
+    self.onmessage = function(ev) {
+        if (ev.data.type === 'stop') stopped = true;
+    };
+    
+    function runChunk() {
+        if (stopped) {
+            self.postMessage({ type: 'stopped', processed, total, hits });
+            return;
+        }
+        const end = Math.min(processed + chunkSize, total);
+        for (let i = processed; i < end; i++) {
+            const nums = new Set();
+            while (nums.size < drawNum) nums.add(Math.floor(Math.random() * maxNum) + 1);
             
-            const prob = (waysNum / totalNum) * (waysStar / totalStar);            const odds = prob > 0 ? Math.round(1 / prob) : Infinity;
-            
-            let premio = `${k}N+${j}⭐`;
-            if (loteria === "euromilhoes") {
-                if (k === 5 && j === 2) premio += " - JACKPOT";
-                else if (k === 5 && j === 1) premio += " - 2º Prémio";
-                else if (k === 5 && j === 0) premio += " - 3º Prémio";
-                else if (k === 4 && j === 2) premio += " - 4º Prémio";
-                else if (k === 4 && j === 1) premio += " - 5º Prémio";
+            let nHits = 0;
+            for (const n of nums) if (targetNum.has(n)) nHits++;
+            hits[nHits]++;
+        }
+        processed = end;
+        self.postMessage({ type: 'progress', processed, total, hits });
+                if (processed < total) {
+            setTimeout(runChunk, 0);
+        } else {
+            self.postMessage({ type: 'done', hits, total });
+        }
+    }
+    runChunk();
+};
+`;
+
+/* ============================================================
+   REPORTS - Relatórios
+   ============================================================ */
+const Reports = {
+    generate(game, draws, stats) {
+        const cfg = GAMES[game];
+        const { DateTime } = luxon;
+        const now = DateTime.now().toFormat('dd/MM/yyyy HH:mm');
+        
+        let r = `═══════════════════════════════════════════════\n`;
+        r += `  LotoAnalytics Pro v5.1 - Relatório Completo\n`;
+        r += `  ${now}\n`;
+        r += `═══════════════════════════════════════════════\n\n`;
+        r += `JOGO: ${cfg.name}\n`;
+        r += `TOTAL DE SORTEIOS: ${draws.length}\n\n`;
+        
+        r += `── ESTATÍSTICAS GERAIS ──\n`;
+        r += `Entropia Shannon: ${stats.entropy.toFixed(3)} bits\n`;
+        r += `Média da soma: ${stats.mean.toFixed(2)}\n`;
+        r += `Mediana: ${stats.median.toFixed(2)}\n`;
+        r += `Desvio padrão: ${stats.std.toFixed(2)}\n`;
+        r += `Variação: ${stats.variance.toFixed(2)}\n`;
+        r += `Par/Ímpar: ${stats.parity}\n`;
+        r += `Soma mínima: ${stats.minSum}\n`;
+        r += `Soma máxima: ${stats.maxSum}\n\n`;
+        
+        r += `── TOP 10 QUENTES ──\n`;
+        r += stats.hot.map(h => `  Nº ${h.num}: ${h.freq}x`).join('\n') + '\n\n';
+        
+        r += `── TOP 10 FRIOS ──\n`;
+        r += stats.cold.map(c => `  Nº ${c.num}: ${c.freq}x`).join('\n') + '\n\n';
+        
+        r += `── TOP 10 ATRASADOS ──\n`;
+        r += stats.delayed.map(d => `  Nº ${d.num}: ${d.delay} sorteios`).join('\n') + '\n\n';
+        
+        r += `── PROBABILIDADES TEÓRICAS (5 números) ──\n`;
+        const probs = MathUtils.calculateProbabilities(game, 5);
+        for (const p of probs.slice(0, 10)) {
+            r += `${p.cat}: 1 em ${p.odds.toLocaleString('pt-PT')}\n`;
+        }        r += `\n`;
+        
+        r += `── AVISO ──\n`;
+        r += `Lotarias são eventos aleatórios independentes.\n`;
+        r += `Nenhum sistema pode prever resultados futuros.\n`;
+        r += `As probabilidades teóricas são exatas e imutáveis.\n`;
+        r += `Jogue com responsabilidade.\n`;
+        
+        return r;
+    }
+};
+
+/* ============================================================
+   APP - Aplicação Principal
+   ============================================================ */
+const App = {
+    currentGame: 'euromilhoes',
+    draws: [],
+    stats: null,
+    selectedNumbers: new Set(),
+    selectedStars: new Set(),
+    worker: null,
+    chartsRendered: { dashboard: false, estatisticas: false },
+    
+    async init() {
+        try {
+            await Storage.init();
+            this.setupTabs();
+            this.setupGameSelector();
+            this.setupManualBet();
+            await this.loadFromDB();
+            this.setupPWA();
+        } catch (err) {
+            console.error('Erro na inicialização:', err);
+            UI.toast('Erro ao inicializar: ' + err.message, 'error');
+        }
+    },
+    
+    setupPWA() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const swCode = `
+                    self.addEventListener('install', e => self.skipWaiting());
+                    self.addEventListener('activate', e => self.clients.claim());
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(fetch(e.request).catch(() => new Response('Offline')));
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);                navigator.serviceWorker.register(swUrl).catch(() => {});
+            } catch (err) {
+                console.warn('PWA não suportado:', err);
+            }
+        }
+    },
+    
+    setupTabs() {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                const sectionId = 'sec-' + tab.dataset.section;
+                document.getElementById(sectionId).classList.add('active');
+                
+                if (tab.dataset.section === 'estatisticas' && this.draws.length > 0) {
+                    setTimeout(() => {
+                        const cfg = GAMES[this.currentGame];
+                        Charts.distribution(this.draws, cfg.maxNumbers);
+                        Charts.sumEvolution(this.draws);
+                    }, 100);
+                }
+            });
+        });
+    },
+    
+    setupGameSelector() {
+        document.getElementById('gameSelect').addEventListener('change', async (e) => {
+            this.currentGame = e.target.value;
+            Charts.destroyAll();
+            await this.loadFromDB();
+        });
+    },
+    
+    async loadFromDB() {
+        try {
+            this.draws = await Storage.getDraws(this.currentGame);
+            if (this.draws.length > 0) {
+                this.recalculateStats();
+                this.updateDashboard();
+                this.updateHistory();
+                await this.updateSavedBets();
+                document.getElementById('dbStatus').innerHTML = 
+                    `<span class="ok">✅ ${this.draws.length} sorteios carregados</span> | ${GAMES[this.currentGame].name}`;
             } else {
-                if (k === 5 && j === 1) premio += " - JACKPOT";
-                else if (k === 5 && j === 0) premio += " - 2º Prémio";
-                else if (k === 4 && j === 1) premio += " - 3º Prémio";
+                document.getElementById('dbStatus').innerHTML = 
+                    '⚠️ Base de dados vazia - carregue dados para começar';                this.resetDashboard();
+            }
+        } catch (err) {
+            console.error(err);
+            UI.toast('Erro ao carregar dados: ' + err.message, 'error');
+        }
+    },
+    
+    resetDashboard() {
+        document.getElementById('stat-total').textContent = '0';
+        document.getElementById('stat-entropy').textContent = '0';
+        document.getElementById('stat-mean').textContent = '0';
+        document.getElementById('stat-std').textContent = '0';
+        document.getElementById('hotNumbers').innerHTML = '';
+        document.getElementById('coldNumbers').innerHTML = '';
+        document.getElementById('heatmap').innerHTML = '';
+        Charts.destroy('freqChart');
+        Charts.destroy('delayChart');
+    },
+    
+    async loadSampleData() {
+        try {
+            const cfg = GAMES[this.currentGame];
+            const draws = [];
+            const hoje = new Date();
+            
+            for (let i = 0; i < 200; i++) {
+                const numbers = MathUtils.generateUnique(cfg.maxNumbers, cfg.drawNumbers);
+                const stars = MathUtils.generateUnique(cfg.maxStars, cfg.drawStars);
+                const date = new Date(hoje);
+                date.setDate(date.getDate() - i * 3);
+                
+                draws.push({
+                    date: date.toISOString().split('T')[0],
+                    game: this.currentGame,
+                    numbers, stars
+                });
             }
             
-            if (odds !== Infinity && odds < 1000000000) {
-                probs.push({ categoria: premio, odds });
+            await Storage.saveDraws(draws);
+            this.draws = draws;
+            this.recalculateStats();
+            this.updateDashboard();
+            this.updateHistory();
+            
+            document.getElementById('dbStatus').innerHTML = 
+                `<span class="ok">✅ ${draws.length} sorteios carregados com sucesso!</span>`;
+            UI.toast(`${draws.length} sorteios carregados!`, 'success');
+        } catch (err) {
+            console.error(err);            UI.toast('Erro ao carregar: ' + err.message, 'error');
+        }
+    },
+    
+    async clearAllData() {
+        if (!confirm('Tem a certeza que quer apagar todos os dados?')) return;
+        try {
+            await Storage.clearDraws(this.currentGame);
+            this.draws = [];
+            this.stats = null;
+            Charts.destroyAll();
+            this.resetDashboard();
+            this.updateHistory();
+            document.getElementById('dbStatus').innerHTML = '⚠️ Base de dados vazia';
+            UI.toast('Dados apagados com sucesso', 'success');
+        } catch (err) {
+            UI.toast('Erro ao apagar: ' + err.message, 'error');
+        }
+    },
+    
+    async importFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const cfg = GAMES[this.currentGame];
+        const ext = file.name.split('.').pop().toLowerCase();
+        
+        try {
+            let draws = [];
+            
+            if (ext === 'json') {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                if (!Array.isArray(data)) throw new Error('JSON deve ser um array');
+                draws = data.map((row, idx) => {
+                    let numbers, stars;
+                    if (row.numbers && row.stars) {
+                        numbers = Array.isArray(row.numbers) ? row.numbers : [];
+                        stars = Array.isArray(row.stars) ? row.stars : [];
+                    } else {
+                        numbers = [row.n1,row.n2,row.n3,row.n4,row.n5].map(Number);
+                        stars = cfg.drawStars === 2 ? 
+                            [row.e1,row.e2].map(Number) : 
+                            [row.e1].map(Number);
+                    }
+                    numbers = numbers.filter(n => Number.isInteger(n)).sort((a,b) => a-b);
+                    stars = stars.filter(s => Number.isInteger(s)).sort((a,b) => a-b);
+                    return {
+                        date: row.date || new Date().toISOString().split('T')[0],
+                        game: this.currentGame,                        numbers, stars
+                    };
+                }).filter(d => d.numbers.length === 5 && d.stars.length === cfg.drawStars);
+            } else {
+                const text = await file.text();
+                const result = Papa.parse(text, { header: true, skipEmptyLines: true });
+                draws = result.data.map((row) => {
+                    const numbers = [row.n1,row.n2,row.n3,row.n4,row.n5].map(Number)
+                        .filter(n => Number.isInteger(n)).sort((a,b) => a-b);
+                    const stars = cfg.drawStars === 2 ? 
+                        [row.e1,row.e2].map(Number).filter(n => Number.isInteger(n)).sort((a,b) => a-b) : 
+                        [row.e1].map(Number).filter(n => Number.isInteger(n));
+                    return {
+                        date: row.date || new Date().toISOString().split('T')[0],
+                        game: this.currentGame,
+                        numbers, stars
+                    };
+                }).filter(d => d.numbers.length === 5 && d.stars.length === cfg.drawStars);
+            }
+            
+            if (draws.length === 0) {
+                throw new Error('Nenhum dado válido encontrado no ficheiro');
+            }
+            
+            await Storage.saveDraws(draws);
+            this.draws = draws;
+            this.recalculateStats();
+            this.updateDashboard();
+            this.updateHistory();
+            
+            document.getElementById('dbStatus').innerHTML = 
+                `<span class="ok">✅ ${draws.length} sorteios importados!</span>`;
+            UI.toast(`${draws.length} sorteios importados!`, 'success');
+        } catch (err) {
+            console.error(err);
+            UI.toast('Erro ao importar: ' + err.message, 'error');
+        }
+        
+        event.target.value = '';
+    },
+    
+    recalculateStats() {
+        if (this.draws.length === 0) return;
+        try {
+            this.stats = Statistics.analyze(this.draws, this.currentGame);
+            this.updateDashboard();
+        } catch (err) {
+            console.error('Erro ao calcular estatísticas:', err);
+            UI.toast('Erro ao calcular estatísticas', 'error');        }
+    },
+    
+    updateDashboard() {
+        if (!this.stats) return;
+        const cfg = GAMES[this.currentGame];
+        
+        document.getElementById('stat-total').textContent = this.draws.length;
+        document.getElementById('stat-entropy').textContent = this.stats.entropy.toFixed(3) + ' bits';
+        document.getElementById('stat-mean').textContent = this.stats.mean.toFixed(1);
+        document.getElementById('stat-std').textContent = this.stats.std.toFixed(2);
+        document.getElementById('stat-parity').textContent = this.stats.parity;
+        document.getElementById('stat-minsum').textContent = this.stats.minSum;
+        document.getElementById('stat-maxsum').textContent = this.stats.maxSum;
+        document.getElementById('stat-median').textContent = this.stats.median.toFixed(1);
+        document.getElementById('stat-var').textContent = this.stats.variance.toFixed(2);
+        
+        document.getElementById('hotNumbers').innerHTML = this.stats.hot.map(h => 
+            `<span class="chip hot">#${h.num} (${h.freq}x)</span>`).join('') || '<em>Sem dados</em>';
+        document.getElementById('coldNumbers').innerHTML = this.stats.cold.map(c => 
+            `<span class="chip cold">#${c.num} (${c.freq}x)</span>`).join('') || '<em>Sem dados</em>';
+        document.getElementById('correlations').innerHTML = this.stats.correlations.slice(0,10).map(([p,c]) => 
+            `<span class="chip">${p}: ${c}x</span>`).join('') || '<em>Sem dados</em>';
+        
+        Charts.frequency(this.stats.freqNum, cfg.maxNumbers);
+        Charts.delay(this.draws, cfg.maxNumbers);
+        
+        // Heatmap
+        const heat = new Array(cfg.maxNumbers + 1).fill(0);
+        for (const d of this.draws.slice(0, 30)) {
+            if (!d.numbers) continue; // <-- CORREÇÃO: verifica se existe
+            for (const n of d.numbers) {
+                if (n >= 1 && n <= cfg.maxNumbers) heat[n]++;
             }
         }
-    }
-    return probs.sort((a, b) => a.odds - b.odds);
-}
-
-// Gerar histórico simulado (100 sorteios)
-function gerarHistorico(loteria) {
-    const cfg = CONFIG[loteria];
-    const historico = [];
-    
-    for (let i = 0; i < 100; i++) {
-        const nums = gerarNumeros(cfg.maxNum, 5);
-        const stars = gerarNumeros(cfg.maxStar, cfg.starCount);
-        historico.push({ nums, stars });
-    }
-    return historico;
-}
-
-// Análise estatística
-function analisarEstatistica(historico, maxNum, maxStar) {
-    // Frequências
-    const freqNum = new Array(maxNum + 1).fill(0);
-    const freqStar = new Array(maxStar + 1).fill(0);
-    
-    for (let draw of historico) {
-        for (let n of draw.nums) freqNum[n]++;
-        for (let s of draw.stars) freqStar[s]++;
-    }
-    
-    // Top frequentes
-    const topFreq = freqNum
-        .map((count, num) => ({ num, count }))        .filter(x => x.num > 0)
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5)
-        .map(x => x.num);
-    
-    // Atrasos (sorteios sem aparecer)
-    const atraso = new Array(maxNum + 1).fill(0);
-    for (let i = 0; i < historico.length; i++) {
-        for (let n of historico[i].nums) {
-            if (atraso[n] === 0) atraso[n] = i;
+        const heatmap = document.getElementById('heatmap');
+        heatmap.innerHTML = '';
+        for (let i = 1; i <= cfg.maxNumbers; i++) {
+            const intensity = Math.min(1, heat[i] / 6);
+            const el = document.createElement('div');
+            el.className = 'heat-cell';
+            el.style.backgroundColor = `rgba(243,156,18,${0.15 + intensity * 0.85})`;
+            el.textContent = i;
+            el.title = `${heat[i]}x nos últimos 30 sorteios`;
+            heatmap.appendChild(el);
         }
-    }
+    },
     
-    const topAtraso = atraso
-        .map((count, num) => ({ num, count }))
-        .filter(x => x.num > 0 && x.count > 0)
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5)
-        .map(x => x.num);
+    updateHistory() {        const table = document.getElementById('historyTable');
+        if (this.draws.length === 0) {
+            table.innerHTML = '<tr><td>Sem dados</td></tr>';
+            return;
+        }
+        let html = '<tr><th>#</th><th>Data</th><th>Números</th><th>Estrelas</th></tr>';
+        for (let i = 0; i < this.draws.length; i++) {
+            const d = this.draws[i];
+            if (!d.numbers || !d.stars) continue;
+            html += `<tr><td>${i+1}</td><td>${d.date}</td><td>${d.numbers.join(', ')}</td><td>⭐${d.stars.join(', ')}</td></tr>`;
+        }
+        table.innerHTML = html;
+    },
     
-    // Pares correlacionados
-    const pares = {};
-    for (let draw of historico.slice(0, 30)) {
-        for (let i = 0; i < draw.nums.length; i++) {
-            for (let j = i + 1; j < draw.nums.length; j++) {
-                const key = `${draw.nums[i]}-${draw.nums[j]}`;
-                pares[key] = (pares[key] || 0) + 1;
+    async updateSavedBets() {
+        try {
+            const bets = await Storage.getBets();
+            const table = document.getElementById('savedBetsTable');
+            if (bets.length === 0) {
+                table.innerHTML = '<tr><td>Nenhuma aposta guardada</td></tr>';
+                return;
             }
+            let html = '<tr><th>Data</th><th>Jogo</th><th>Números</th><th>Estrelas</th><th>Preço</th><th>Ações</th></tr>';
+            for (const b of bets) {
+                const cfg = GAMES[b.game];
+                if (!cfg) continue; // <-- CORREÇÃO: verifica se o jogo existe
+                const price = (cfg.multiPrices[b.numbers.length] || cfg.price * MathUtils.totalTickets(b.numbers.length)).toFixed(2);
+                html += `<tr><td>${b.date}</td><td>${cfg.name}</td><td>${b.numbers.join(', ')}</td><td>⭐${b.stars.join(', ')}</td><td>${price}€</td><td><button onclick="App.deleteBet(${b.id})" style="padding:5px 10px;font-size:0.8rem;background:linear-gradient(135deg,#e74c3c,#c0392b);">🗑️</button></td></tr>`;
+            }
+            table.innerHTML = html;
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    
+    async deleteBet(id) {
+        if (!confirm('Apagar esta aposta?')) return;
+        try {
+            const tx = Storage.db.transaction('bets', 'readwrite');
+            tx.objectStore('bets').delete(id);
+            tx.oncomplete = async () => {
+                await this.updateSavedBets();
+                UI.toast('Aposta apagada', 'success');
+            };
+        } catch (err) {
+            UI.toast('Erro ao apagar: ' + err.message, 'error');
+        }
+    },
+    
+    generateBet() {        if (this.draws.length === 0 || !this.stats) {
+            UI.toast('Carregue dados primeiro no Dashboard!', 'error');
+            return;
+        }
+        
+        try {
+            const cfg = GAMES[this.currentGame];
+            const count = parseInt(document.getElementById('betType').value);
+            const method = document.getElementById('genMethod').value;
+            
+            if (isNaN(count) || count < 5 || count > 10) {
+                UI.toast('Tipo de aposta inválido', 'error');
+                return;
+            }
+            
+            let numbers;
+            switch (method) {
+                case 'statistical':
+                    numbers = Generator.statistical(this.currentGame, count, this.stats);
+                    break;
+                case 'random':
+                    numbers = Generator.random(this.currentGame, count);
+                    break;
+                case 'balanced':
+                    numbers = Generator.balanced(this.currentGame, count, this.stats);
+                    break;
+                case 'genetic':
+                    numbers = Generator.genetic(this.currentGame, count, this.stats);
+                    break;
+                default:
+                    numbers = Generator.random(this.currentGame, count);
+            }
+            
+            const stars = Generator.generateStars(this.currentGame, this.stats);
+            
+            document.getElementById('genNumbers').innerHTML = 
+                numbers.map(n => `<div class="bola">${n}</div>`).join('');
+            document.getElementById('genStars').innerHTML = 
+                stars.map(s => `<div class="bola estrela">⭐${s}</div>`).join('');
+            
+            const comb = MathUtils.totalTickets(count);
+            const price = cfg.multiPrices[count] || (cfg.price * comb);
+            const jackpot = MathUtils.jackpotOdds(this.currentGame);
+            
+            document.getElementById('genPrice').textContent = price.toFixed(2) + ' €';
+            document.getElementById('genComb').textContent = comb.toLocaleString('pt-PT');
+            document.getElementById('genJackpot').textContent = `1/${jackpot.toLocaleString('pt-PT')}`;
+            
+            // Score
+            const maxFreq = Math.max(...this.stats.freqNum.slice(1)) || 1;            const score = numbers.reduce((acc, n) => acc + (this.stats.freqNum[n] || 0)/maxFreq, 0) / count * 100;
+            document.getElementById('genScore').textContent = score.toFixed(1) + '/100';
+            
+            // Probabilidades
+            const probs = MathUtils.calculateProbabilities(this.currentGame, count);
+            let html = '<table><tr><th>Categoria</th><th>Probabilidade</th><th>Odds (1 em)</th></tr>';
+            for (const p of probs.slice(0, 13)) {
+                html += `<tr><td>${p.cat}</td><td>${p.prob.toExponential(3)}</td><td>${p.odds.toLocaleString('pt-PT')}</td></tr>`;
+            }
+            html += '</table>';
+            document.getElementById('genProbs').innerHTML = html;
+            
+            UI.toast('Aposta gerada com sucesso!', 'success');
+        } catch (err) {
+            console.error(err);
+            UI.toast('Erro ao gerar aposta: ' + err.message, 'error');
+        }
+    },
+    
+    setupManualBet() {
+        const gameSel = document.getElementById('manualGame');
+        gameSel.addEventListener('change', () => this.renderManualGrids());
+        this.renderManualGrids();
+    },
+    
+    renderManualGrids() {
+        const game = document.getElementById('manualGame').value;
+        const cfg = GAMES[game];
+        
+        document.getElementById('maxNumLabel').textContent = cfg.maxNumbers;
+        document.getElementById('maxStarLabel').textContent = cfg.drawStars;
+        document.getElementById('maxStarRange').textContent = cfg.maxStars;
+        
+        this.selectedNumbers.clear();
+        this.selectedStars.clear();
+        
+        const numGrid = document.getElementById('numberGrid');
+        numGrid.innerHTML = '';
+        for (let i = 1; i <= cfg.maxNumbers; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'number-btn';
+            btn.textContent = i;
+            btn.onclick = () => this.toggleNumber(i, btn, cfg);
+            numGrid.appendChild(btn);
+        }
+        
+        const starGrid = document.getElementById('starGrid');
+        starGrid.innerHTML = '';
+        for (let i = 1; i <= cfg.maxStars; i++) {
+            const btn = document.createElement('button');            btn.className = 'number-btn star-btn';
+            btn.textContent = '⭐' + i;
+            btn.onclick = () => this.toggleStar(i, btn, cfg);
+            starGrid.appendChild(btn);
+        }
+        
+        this.updateManualInfo();
+    },
+    
+    toggleNumber(n, btn, cfg) {
+        if (this.selectedNumbers.has(n)) {
+            this.selectedNumbers.delete(n);
+            btn.classList.remove('selected');
+        } else {
+            if (this.selectedNumbers.size >= 10) {
+                UI.toast('Máximo 10 números', 'error');
+                return;
+            }
+            this.selectedNumbers.add(n);
+            btn.classList.add('selected');
+        }
+        this.updateManualInfo();
+    },
+    
+    toggleStar(s, btn, cfg) {
+        if (this.selectedStars.has(s)) {
+            this.selectedStars.delete(s);
+            btn.classList.remove('selected');
+        } else {
+            if (this.selectedStars.size >= cfg.drawStars) {
+                UI.toast(`Máximo ${cfg.drawStars} estrela(s)`, 'error');
+                return;
+            }
+            this.selectedStars.add(s);
+            btn.classList.add('selected');
+        }
+        this.updateManualInfo();
+    },
+    
+    updateManualInfo() {
+        const game = document.getElementById('manualGame').value;
+        const cfg = GAMES[game];
+        const nums = Array.from(this.selectedNumbers).sort((a,b) => a-b);
+        const stars = Array.from(this.selectedStars).sort((a,b) => a-b);
+        
+        const validation = Validator.validateBet(nums, stars, game);
+        const msgEl = document.getElementById('validationMsg');
+        
+        if (nums.length === 0 && stars.length === 0) {
+            msgEl.innerHTML = '';        } else if (validation.valid) {
+            msgEl.innerHTML = '<div class="validation-msg valid">✅ Aposta válida</div>';
+        } else {
+            msgEl.innerHTML = `<div class="validation-msg invalid">❌ ${validation.errors.join(', ')}</div>`;
+        }
+        
+        const comb = nums.length >= 5 ? MathUtils.totalTickets(nums.length) : 0;
+        const price = nums.length >= 5 ? (cfg.multiPrices[nums.length] || cfg.price * comb) : 0;
+        const sum = nums.reduce((a,b) => a+b, 0);
+        
+        document.getElementById('manualPrice').textContent = price.toFixed(2) + ' €';
+        document.getElementById('manualComb').textContent = comb > 0 ? comb.toLocaleString('pt-PT') : '0';
+        document.getElementById('manualSum').textContent = sum;
+    },
+    
+    async saveManualBet() {
+        const game = document.getElementById('manualGame').value;
+        const nums = Array.from(this.selectedNumbers).sort((a,b) => a-b);
+        const stars = Array.from(this.selectedStars).sort((a,b) => a-b);
+        
+        const validation = Validator.validateBet(nums, stars, game);
+        if (!validation.valid) {
+            UI.toast('Aposta inválida: ' + validation.errors.join(', '), 'error');
+            return;
+        }
+        
+        try {
+            await Storage.saveBet({
+                date: new Date().toISOString().split('T')[0],
+                game, numbers: nums, stars
+            });
+            
+            await this.updateSavedBets();
+            UI.toast('Aposta guardada com sucesso!', 'success');
+            this.clearManualBet();
+        } catch (err) {
+            UI.toast('Erro ao guardar: ' + err.message, 'error');
+        }
+    },
+    
+    clearManualBet() {
+        this.selectedNumbers.clear();
+        this.selectedStars.clear();
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        this.updateManualInfo();
+    },
+    
+    async runMonteCarlo() {
+        if (this.worker) {
+            UI.toast('Simulação já em curso', 'error');            return;
+        }
+        
+        const cfg = GAMES[this.currentGame];
+        const total = parseInt(document.getElementById('mcSims').value);
+        
+        if (isNaN(total) || total < 1000) {
+            UI.toast('Número de simulações inválido', 'error');
+            return;
+        }
+        
+        document.getElementById('mcStatus').innerHTML = '🎲 A iniciar simulação...';
+        document.getElementById('mcProgress').style.width = '0%';
+        document.getElementById('mcProgress').textContent = '0%';
+        document.getElementById('mcResults').innerHTML = '';
+        
+        try {
+            const blob = new Blob([WorkerCode], { type: 'application/javascript' });
+            this.worker = new Worker(URL.createObjectURL(blob));
+            
+            this.worker.onmessage = (e) => {
+                if (e.data.type === 'progress') {
+                    const pct = ((e.data.processed / e.data.total) * 100).toFixed(1);
+                    document.getElementById('mcProgress').style.width = pct + '%';
+                    document.getElementById('mcProgress').textContent = pct + '%';
+                    document.getElementById('mcStatus').innerHTML = 
+                        `🎲 ${e.data.processed.toLocaleString('pt-PT')} / ${e.data.total.toLocaleString('pt-PT')}`;
+                } else if (e.data.type === 'done' || e.data.type === 'stopped') {
+                    const hits = e.data.hits;
+                    const actualTotal = e.data.total || total;
+                    const probs = hits.map(h => h / actualTotal);
+                    Charts.monteCarlo(probs);
+                    
+                    let html = '<table><tr><th>Acertos</th><th>Empírico</th><th>Teórico</th><th>Odds</th></tr>';
+                    for (let k = 5; k >= 0; k--) {
+                        const teorico = MathUtils.combination(5, k) * 
+                                       MathUtils.combination(cfg.maxNumbers - 5, 5 - k) / 
+                                       MathUtils.combination(cfg.maxNumbers, 5);
+                        const empirico = probs[k];
+                        const odds = empirico > 0 ? Math.round(1/empirico) : Infinity;
+                        html += `<tr><td>${k} números</td><td>${(empirico*100).toFixed(4)}%</td><td>${(teorico*100).toFixed(4)}%</td><td>${odds === Infinity ? '∞' : '1/' + odds.toLocaleString('pt-PT')}</td></tr>`;
+                    }
+                    html += '</table>';
+                    html += `<p style="margin-top:10px;"><strong>Jackpot (${cfg.drawNumbers}+${cfg.drawStars}⭐):</strong> 1 em ${MathUtils.jackpotOdds(this.currentGame).toLocaleString('pt-PT')}</p>`;
+                    if (e.data.type === 'stopped') {
+                        html += `<p style="color:var(--warning);margin-top:10px;"><strong>⚠️ Simulação interrompida pelo utilizador</strong></p>`;
+                    }
+                    
+                    document.getElementById('mcResults').innerHTML = html;
+                    document.getElementById('mcStatus').innerHTML =                         `<span class="ok">✅ ${e.data.type === 'stopped' ? 'Interrompido' : 'Concluído'}</span> ${actualTotal.toLocaleString('pt-PT')} simulações`;
+                    
+                    this.worker.terminate();
+                    this.worker = null;
+                    UI.toast('Simulação concluída!', 'success');
+                }
+            };
+            
+            this.worker.onerror = (err) => {
+                console.error('Worker error:', err);
+                UI.toast('Erro no worker: ' + err.message, 'error');
+                this.worker = null;
+            };
+            
+            this.worker.postMessage({
+                total, maxNum: cfg.maxNumbers, maxStar: cfg.maxStars,
+                drawNum: cfg.drawNumbers, drawStar: cfg.drawStars
+            });
+        } catch (err) {
+            UI.toast('Erro ao iniciar: ' + err.message, 'error');
+            this.worker = null;
+        }
+    },
+    
+    stopMonteCarlo() {
+        if (this.worker) {
+            this.worker.postMessage({ type: 'stop' });
+            UI.toast('A parar simulação...', 'success');
+        } else {
+            UI.toast('Nenhuma simulação em curso', 'error');
+        }
+    },
+    
+    generateReport() {
+        if (this.draws.length === 0 || !this.stats) {
+            UI.toast('Carregue dados primeiro!', 'error');
+            return;
+        }
+        try {
+            const report = Reports.generate(this.currentGame, this.draws, this.stats);
+            document.getElementById('reportText').value = report;
+            UI.toast('Relatório gerado!', 'success');
+        } catch (err) {
+            UI.toast('Erro ao gerar relatório: ' + err.message, 'error');
+        }
+    },
+    
+    exportCSV() {
+        if (this.draws.length === 0) { UI.toast('Sem dados', 'error'); return; }
+        try {            const cfg = GAMES[this.currentGame];
+            const rows = this.draws.filter(d => d.numbers && d.stars).map(d => {
+                const row = { date: d.date, n1: d.numbers[0], n2: d.numbers[1], n3: d.numbers[2], n4: d.numbers[3], n5: d.numbers[4], e1: d.stars[0] };
+                if (cfg.drawStars === 2) row.e2 = d.stars[1];
+                return row;
+            });
+            const csv = Papa.unparse(rows);
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${this.currentGame}_${Date.now()}.csv`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+            UI.toast('CSV exportado!', 'success');
+        } catch (err) {
+            UI.toast('Erro ao exportar: ' + err.message, 'error');
+        }
+    },
+    
+    exportJSON() {
+        if (this.draws.length === 0) { UI.toast('Sem dados', 'error'); return; }
+        try {
+            const blob = new Blob([JSON.stringify(this.draws, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${this.currentGame}_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+            UI.toast('JSON exportado!', 'success');
+        } catch (err) {
+            UI.toast('Erro ao exportar: ' + err.message, 'error');
+        }
+    },
+    
+    exportExcel() {
+        if (this.draws.length === 0) { UI.toast('Sem dados', 'error'); return; }
+        try {
+            const wb = XLSX.utils.book_new();
+            const cfg = GAMES[this.currentGame];
+            
+            const data = [['ID', 'Data', 'N1', 'N2', 'N3', 'N4', 'N5', 'E1', 'E2']];
+            for (const d of this.draws) {
+                if (!d.numbers || !d.stars) continue;
+                const row = [d.id || '', d.date, ...d.numbers, d.stars[0]]; // <-- CORREÇÃO: d.id || ''
+                if (cfg.drawStars === 2) row.push(d.stars[1]);
+                else row.push('');
+                data.push(row);
+            }
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sorteios');            
+            if (this.stats) {
+                const statsData = [['Número', 'Frequência', 'Atraso']];
+                for (let i = 1; i <= cfg.maxNumbers; i++) {
+                    statsData.push([i, this.stats.freqNum[i] || 0, this.stats.lastSeenNum[i] || 0]);
+                }
+                const ws2 = XLSX.utils.aoa_to_sheet(statsData);
+                XLSX.utils.book_append_sheet(wb, ws2, 'Estatísticas');
+            }
+            
+            XLSX.writeFile(wb, `lotoanalytics_${this.currentGame}_${Date.now()}.xlsx`);
+            UI.toast('Excel exportado!', 'success');
+        } catch (err) {
+            UI.toast('Erro ao exportar: ' + err.message, 'error');
+        }
+    },
+    
+    exportPDF() {
+        try {
+            const element = document.querySelector('.container');
+            html2pdf().from(element).set({
+                margin: 0.5,
+                filename: `lotoanalytics_${this.currentGame}_${Date.now()}.pdf`,
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            }).save();
+            UI.toast('PDF exportado!', 'success');
+        } catch (err) {
+            UI.toast('Erro ao exportar PDF: ' + err.message, 'error');
         }
     }
-    
-    const topPares = Object.entries(pares)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(([pair]) => pair);
-    
-    return { topFreq, topAtraso, topPares };
-}
+};
 
-// Renderizar resultados
-function renderizar(loteria, qtdNums) {
-    const cfg = CONFIG[loteria];
-    
-    // Gerar números e estrelas
-    const numeros = gerarNumeros(cfg.maxNum, qtdNums);
-    const estrelas = gerarNumeros(cfg.maxStar, cfg.starCount);
-    
-    // Renderizar números
-    const numDiv = document.getElementById('numeros');
-    numDiv.innerHTML = numeros.map(n => `<div class="bola">${n}</div>`).join('');    
-    // Renderizar estrelas
-    const starDiv = document.getElementById('estrelas');
-    starDiv.innerHTML = estrelas.map(s => `<div class="bola estrela">⭐${s}</div>`).join('');
-    
-    // Preço
-    const precoBase = cfg.preco;
-    const combinacoes = comb(qtdNums, 5);
-    const precoTotal = (precoBase * combinacoes).toFixed(2);
-    document.getElementById('preco').textContent = `${precoTotal} €`;
-    
-    // Combinações
-    document.getElementById('comb').textContent = combinacoes.toLocaleString('pt-PT');
-    
-    // Probabilidade do jackpot
-    const probJackpot = comb(cfg.maxNum, 5) * comb(cfg.maxStar, cfg.starCount);
-    document.getElementById('prob').textContent = `1 em ${probJackpot.toLocaleString('pt-PT')}`;
-    
-    // Tabela de probabilidades
-    const probs = calcularProbabilidades(loteria, qtdNums);
-    let tableHtml = '<table><tr><th>Categoria</th><th>Odds (1 em)</th></tr>';
-    for (let p of probs) {
-        tableHtml += `<tr><td>${p.categoria}</td><td>${p.odds.toLocaleString('pt-PT')}</td></tr>`;
-    }
-    tableHtml += '</table>';
-    document.getElementById('probTable').innerHTML = tableHtml;
-    
-    // Análise estatística
-    const historico = gerarHistorico(loteria);
-    const stats = analisarEstatistica(historico, cfg.maxNum, cfg.maxStar);
-    
-    document.getElementById('freq').innerHTML = stats.topFreq.join(', ');
-    document.getElementById('atraso').innerHTML = stats.topAtraso.join(', ');
-    document.getElementById('pares').innerHTML = stats.topPares.join(', ');
-    
-    document.getElementById('status').textContent = `✅ Análise completa: 100 sorteios analisados, probabilidades calculadas com precisão matemática exata.`;
-}
-
-// Event listeners
-document.getElementById('gerar').addEventListener('click', () => {
-    const loteria = document.getElementById('loteria').value;
-    const qtdNums = parseInt(document.getElementById('tipo').value);
-    renderizar(loteria, qtdNums);
-});
-
-document.getElementById('loteria').addEventListener('change', () => {
-    const loteria = document.getElementById('loteria').value;
-    const qtdNums = parseInt(document.getElementById('tipo').value);
-    renderizar(loteria, qtdNums);
-});
-document.getElementById('tipo').addEventListener('change', () => {
-    const loteria = document.getElementById('loteria').value;
-    const qtdNums = parseInt(document.getElementById('tipo').value);
-    renderizar(loteria, qtdNums);
-});
-
-// Renderização inicial
-renderizar('euromilhoes', 5);
+App.init();
 </script>
 </body>
-</html>
+    </html>
